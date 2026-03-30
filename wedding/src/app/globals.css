@@ -10,16 +10,22 @@
   font-display: swap;
 }
 
-/* :root {
-  --rsvp-bg: #f5f4ec;
-  --rsvp-green-light: rgba(195, 194, 160, 0.39);
-  --rsvp-green-solid: rgba(195, 194, 160, 1);
-  --rsvp-green-btn: #8f9070;
-  --rsvp-pink: #e8a4a8;
-  --rsvp-pink-dark: #d48e92;
-  --rsvp-text-dark: #3a3a2e;
-  --rsvp-text-mid: #5a5a48;
-} */
+@font-face {
+  font-family: "Simple Serenity";
+  src: url("/fonts/Simple-Serenity.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Perandory Condensed";
+  src: url("/fonts/Perandory-Condensed.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 html,
 body {
