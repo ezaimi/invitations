@@ -8,11 +8,11 @@ import RSVP from "@/templates/general/v1/components/RSVP";
 export default function Home() {
   return (
     <main className="bg-[#e6dfd3] min-h-screen text-[#2c3e50]">
-      <Hero />
+      {/* <Hero />
       <Schedule />
       <DressCode />
       <Location />
-      <Countdown />
+      <Countdown /> */}
       <RSVP />
     </main>
   );

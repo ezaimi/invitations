@@ -1,9 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Belleza&display=swap'); 
+
 @import "tailwindcss";
 
 
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+ 
+@font-face {
+  font-family: 'Slight';
+  src: url('/fonts/Slight-Regular.otf') format('opentype');
+  font-display: swap;
 }
+
+/* :root {
+  --rsvp-bg: #f5f4ec;
+  --rsvp-green-light: rgba(195, 194, 160, 0.39);
+  --rsvp-green-solid: rgba(195, 194, 160, 1);
+  --rsvp-green-btn: #8f9070;
+  --rsvp-pink: #e8a4a8;
+  --rsvp-pink-dark: #d48e92;
+  --rsvp-text-dark: #3a3a2e;
+  --rsvp-text-mid: #5a5a48;
+} */
+
+html,
+body {
+  background-color: var(--rsvp-bg);
+}
+
+/* Smooth counter transition */
+.counter-value {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+/* Overlay fade */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.overlay-enter {
+  animation: fadeIn 0.25s ease forwards;
+}
+
+/* Stagger reveal on load */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+}
+.reveal-1 { animation-delay: 0.05s; }
+.reveal-2 { animation-delay: 0.12s; }
+.reveal-3 { animation-delay: 0.19s; }
+.reveal-4 { animation-delay: 0.26s; }
+.reveal-5 { animation-delay: 0.33s; }
+.reveal-6 { animation-delay: 0.40s; }
+.reveal-7 { animation-delay: 0.47s; }
