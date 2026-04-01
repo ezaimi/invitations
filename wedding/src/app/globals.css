@@ -1,35 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Belleza&display=swap'); 
-
 @import "tailwindcss";
-
-
- 
-@font-face {
-  font-family: 'Slight';
-  src: url('/fonts/Slight-Regular.otf') format('opentype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Simple Serenity";
-  src: url("/fonts/Simple-Serenity.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Perandory Condensed";
-  src: url("/fonts/Perandory-Condensed.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 
 html,
 body {
   background-color: var(--rsvp-bg);
+}
+
+.font-belleza {
+  font-family: var(--font-belleza), serif;
+}
+
+.font-slight {
+  font-family: var(--font-slight), cursive;
+}
+
+.font-serenity {
+  font-family: var(--font-serenity), cursive;
+}
+
+.font-perandory-condensed {
+  font-family: var(--font-perandory-condensed), sans-serif;
 }
 
 /* Smooth counter transition */

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Belleza, Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +11,31 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const belleza = Belleza({
+  variable: "--font-belleza",
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const slight = localFont({
+  src: "../../public/fonts/Slight-Regular.otf",
+  variable: "--font-slight",
+  display: "swap",
+});
+
+const serenity = localFont({
+  src: "../../public/fonts/Simple-Serenity.ttf",
+  variable: "--font-serenity",
+  display: "swap",
+});
+
+const perandoryCondensed = localFont({
+  src: "../../public/fonts/Perandory-Condensed.otf",
+  variable: "--font-perandory-condensed",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${belleza.variable} ${slight.variable} ${serenity.variable} ${perandoryCondensed.variable} antialiased`}
       >
         {children}
       </body>
