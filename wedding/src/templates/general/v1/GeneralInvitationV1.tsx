@@ -1,48 +1,17 @@
-"use client"
-
-import { useRef, useEffect } from "react"
-import gsap from "gsap"
-
-type InvitationData = {
-  bride: string
-  groom: string
-  date: string
-}
-
-export default function GeneralInvitationV1({ data }: { data: InvitationData }) {
-  const keyholeRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const tl = gsap.timeline()
-
-    tl.fromTo(
-      keyholeRef.current,
-      { scale: 1 },
-      {
-        scale: 6,
-        duration: 5,
-        ease: "power2.inOut"
-      }
-    )
-  }, [])
-
+import Home from "./components/Home";
+import { Invitation } from "./types/Invitation";
+import Schedule from "./components/Schedule";
+import RSVP from "./components/RSVP";
+import InvitationLayout from "./components/InvitationLayout";
+import Details from "./components/Details";
+export default function GeneralInvitationV1({ data }: { data: Invitation }) {
   return (
-    <div className="relative min-h-screen overflow-hidden">
-
-      <div
-        ref={keyholeRef}
-        className="absolute inset-0 bg-center bg-no-repeat bg-cover"
-        style={{
-          backgroundImage:
-            "url(/assets/templates/general/v1/images/keyhole.png)"
-        }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen">
-        <h1>{data.bride} & {data.groom}</h1>
-        <p>{data.date}</p>
-      </div>
-
-    </div>
+    <InvitationLayout>
+      {/* <Home data={data}/> */}
+      <div className="h-[10vh] "></div>
+      <Details/>
+      <Schedule/>
+      <RSVP/>
+    </InvitationLayout>
   )
 }

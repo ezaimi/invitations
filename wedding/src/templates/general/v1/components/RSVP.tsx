@@ -175,7 +175,7 @@ export default function RSVPPage() {
 
   return (
     <>
-          <main className="w-full max-w-[420px] min-h-screen px-7 py-12 flex flex-col bg-[#f5f4ec]">
+          <main className="w-full  min-h-screen px-7 py-12 flex flex-col ">
 
         {/* ── Header ── */}
         <header className="text-center mb-7 opacity-0 animate-[slideUp_0.5s_ease_0.05s_forwards]">
