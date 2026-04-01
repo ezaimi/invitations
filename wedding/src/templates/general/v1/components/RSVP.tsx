@@ -58,7 +58,7 @@ function InputField({ icon, ...inputProps }: InputFieldProps) {
       <input
         {...inputProps}
         className="flex-1 bg-transparent border-none outline-none text-base text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] py-4 pr-5 pl-3"
-        style={{ fontFamily: "Belleza, serif" }}
+        style={{ fontFamily: "var(--font-belleza)" }}
       />
     </div>
   );
@@ -74,7 +74,7 @@ function GuestCounter({ count, onChange }: GuestCounterProps) {
     <div className="flex items-center gap-4">
       <p
         className="flex-1 text-[14.5px] leading-[1.55] text-[#3a3a2e]"
-        style={{ fontFamily: "Belleza, serif" }}
+        style={{ fontFamily: "var(--font-belleza)" }}
       >
         Please indicate the total number of people, including yourself and all
         family members or guests.
@@ -87,13 +87,13 @@ function GuestCounter({ count, onChange }: GuestCounterProps) {
           onClick={() => onChange(Math.max(1, count - 1))}
           aria-label="Decrease guests"
           className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xl leading-none transition-all duration-150 active:scale-90 select-none"
-          style={{ backgroundColor: "#e8a4a8", fontFamily: "Belleza, serif" }}
+          style={{ backgroundColor: "#e8a4a8", fontFamily: "var(--font-belleza)" }}
         >
           −
         </button>
         <span
           className="text-[18px] text-[#3a3a2e] min-w-[24px] text-center select-none"
-          style={{ fontFamily: "Belleza, serif" }}
+          style={{ fontFamily: "var(--font-belleza)" }}
         >
           {count}
         </span>
@@ -101,7 +101,7 @@ function GuestCounter({ count, onChange }: GuestCounterProps) {
           onClick={() => onChange(Math.min(20, count + 1))}
           aria-label="Increase guests"
           className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xl leading-none transition-all duration-150 active:scale-90 select-none"
-          style={{ backgroundColor: "#e8a4a8", fontFamily: "Belleza, serif" }}
+          style={{ backgroundColor: "#e8a4a8", fontFamily: "var(--font-belleza)" }}
         >
           +
         </button>
@@ -144,19 +144,19 @@ function ConfirmOverlay({ type, onClose }: ConfirmOverlayProps) {
       </div>
       <h2
         className="text-[30px] text-[#3a3a2e] mb-3"
-        style={{ fontFamily: "'Slight', 'Dancing Script', cursive" }}
+        style={{ fontFamily: "var(--font-slight)" }}
       >
         {title}
       </h2>
       <p
         className="text-[15px] leading-[1.65] text-[#5a5a48] whitespace-pre-line"
-        style={{ fontFamily: "Belleza, serif" }}
+        style={{ fontFamily: "var(--font-belleza)" }}
       >
         {message}
       </p>
       <p
         className="mt-8 text-[13px] text-[#8a8a78]"
-        style={{ fontFamily: "Belleza, serif" }}
+        style={{ fontFamily: "var(--font-belleza)" }}
       >
         Tap anywhere to close
       </p>
@@ -183,7 +183,7 @@ export default function RSVPPage() {
             <span className="flex-1 max-w-[42px] h-px bg-[#3a3a2e]" />
             <h1
               className="text-[28px] leading-none whitespace-nowrap text-[#3a3a2e]"
-              style={{ fontFamily: "'Slight', 'Dancing Script', cursive" }}
+              style={{ fontFamily: "var(--font-slight)" }}
             >
               Will you join us?
             </h1>
@@ -191,7 +191,7 @@ export default function RSVPPage() {
           </div>
           <p
             className="text-[15.5px] leading-[1.65] text-[#3a3a2e] px-1"
-            style={{ fontFamily: "Belleza, serif" }}
+            style={{ fontFamily: "var(--font-belleza)" }}
           >
             Please be so kind as to confirm your attendance by submitting your
             RSVP no later than April&nbsp;1st, so that we can make the necessary
@@ -239,7 +239,7 @@ export default function RSVPPage() {
             value={wishes}
             onChange={(e) => setWishes(e.target.value)}
             className="w-full bg-transparent border-none outline-none resize-none text-[15.5px] leading-[1.6] text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] focus:ring-0"
-            style={{ fontFamily: "Belleza, serif" }}
+            style={{ fontFamily: "var(--font-belleza)" }}
           />
         </div>
 
@@ -248,14 +248,14 @@ export default function RSVPPage() {
           <button
             onClick={() => setOverlay("accept")}
             className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
-            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "Belleza, serif" }}
+            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
           >
             Joyfylly Accept
           </button>
           <button
             onClick={() => setOverlay("decline")}
             className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
-            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "Belleza, serif" }}
+            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
           >
             Gracefully Decline
           </button>

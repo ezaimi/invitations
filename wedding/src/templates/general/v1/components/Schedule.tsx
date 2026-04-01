@@ -33,7 +33,7 @@ export default function Schedule() {
       <h2
         className="text-center mb-12"
         style={{
-          fontFamily: "Slight",
+          fontFamily: "var(--font-slight)",
           color: "#676a26",
           fontSize: "2rem",
         }}
@@ -48,7 +48,7 @@ export default function Schedule() {
             {/* Time */}
             <span
               style={{
-                fontFamily: "Simple Serenity",
+                fontFamily: "var(--font-serenity)",
                 color: "#bf777c",
                 fontSize: "1.5rem",
                 marginBottom: "0.5rem",
@@ -60,7 +60,7 @@ export default function Schedule() {
             {/* Title */}
             <h3
               style={{
-                fontFamily: "Perandory Condensed",
+                fontFamily: "var(--font-perandory-condensed)",
                 color: "#4a4a4a",
                 fontSize: "1.4rem",
                 letterSpacing: "0.05em",
@@ -74,7 +74,7 @@ export default function Schedule() {
             <p
               className="max-w-xs leading-relaxed"
               style={{
-                fontFamily: "Belleza",
+                fontFamily: "var(--font-belleza)",
                 color: "#4a4a4a",
                 fontSize: "1rem",
               }}
