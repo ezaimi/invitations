@@ -12,9 +12,10 @@ export default function Home() {
       <Schedule />
       <DressCode />
       <Location />
-      <Countdown /> */}
+      */}
       <Schedule/>
       <RSVP />
+      <Countdown /> 
     </main>
   );
 }
