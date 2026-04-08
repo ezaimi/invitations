@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Belleza, Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
+import "./global.css";
+
+const burgues = localFont({
+  src: "../../public/fonts/Burgues-Script-Regular.otf",
+  variable: "--font-burgues",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${belleza.variable} ${slight.variable} ${serenity.variable} ${perandoryCondensed.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${belleza.variable} ${slight.variable} ${serenity.variable} ${perandoryCondensed.variable} ${burgues.variable} antialiased`}
       >
         {children}
       </body>
