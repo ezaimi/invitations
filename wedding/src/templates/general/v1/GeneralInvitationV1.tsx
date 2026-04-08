@@ -7,11 +7,12 @@ import Details from "./components/Details";
 export default function GeneralInvitationV1({ data }: { data: Invitation }) {
   return (
     <InvitationLayout>
-      {/* <Home data={data}/> */}
+      <div className="h-[120vh]">1</div>
+      <Home data={data}/>
       <div className="h-[10vh] "></div>
-      <Details/>
-      <Schedule/>
-      <RSVP/>
+      <Details />
+      <Schedule />
+      <RSVP />
     </InvitationLayout>
   )
 }
