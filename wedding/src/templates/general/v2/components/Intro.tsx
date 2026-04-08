@@ -1,72 +1,103 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const images = [
+  "/images/templates/v2/couple1.webp",
+  "/images/templates/v2/couple2.jpg",
+  "/images/templates/v2/couple2.webp",
+  "/images/templates/v2/couple4.jpg",
+];
 
 export default function Intro() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center bg-[#e9e6dd] px-6 py-12">
+    <div className="relative h-screen flex flex-col justify-center 
+    bg-[url('/images/templates/v2/bg.png')]
+  bg-cover bg-center ">
 
-      {/* Frame with slideshow inside */}
-      <div className="relative w-[320px] sm:w-[400px] md:w-[480px]">
+      <div className="w-full flex justify-center">
 
-        {/* Inner images (behind frame) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-[70%] h-[70%] overflow-hidden rounded-full">
-            {/* Replace with your slideshow logic */}
-            <Image
-              src="/images/couple1.jpg"
-              alt="couple"
-              fill
-              className="object-cover"
-            />
+        <div className="relative w-full max-w-[380px] aspect-350/520">
+          {/* Ellipse + image (behind) */}
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="relative w-[70%] h-[60%] rounded-[50%/60%] overflow-hidden border-3 border-transparent mt-2">
+
+              {images.map((src, i) => (
+                <Image
+                  key={i}
+                  src={src}
+                  alt="couple"
+                  fill
+                  className={`absolute inset-0 object-cover transition-all duration-3000 ease-linear
+                    ${i === index ? "opacity-100 scale-100" : "opacity-0 scale-100"}`}
+                />
+              ))}
+
+            </div>
           </div>
+
+          {/* Frame ON TOP */}
+          <Image
+            src="/images/templates/v2/frameOnly.png"
+            alt="frame"
+            fill
+            className="object-cover z-20 pointer-events-none "
+          />
+
+        </div></div>
+
+
+
+      {/* TEXT */}
+      <div className=" inset-0 flex flex-col items-center justify-center text-center px-6 z-20 ">
+
+        <h1
+          className="text-black text-[48px] sm:text-[64px] font-burgues"
+        >
+          Sara & James
+        </h1>
+
+        <p
+          className="mt-6 max-w-[500px] text-[16px] sm:text-[18px]"
+          style={{
+            fontFamily: "var(--font-suranna)",
+            color: "#60683e",
+          }}
+        >
+          We joyfully invite you to share
+          <br />
+          in our celebration of love and commitment,
+          <br />
+          as we begin this new chapter together
+          <br />
+          surrounded by those who mean the most to us.
+        </p>
+
+        <div
+          className="mt-10 text-[28px] sm:text-[36px] tracking-[0.3em]"
+          style={{
+            fontFamily: "var(--font-belleza)",
+            color: "#60683e",
+          }}
+        >
+          22 - 07 - 26
         </div>
 
-        {/* Frame PNG (transparent inside) */}
-        <Image
-          src="/images/frame.png"
-          alt="frame"
-          width={600}
-          height={800}
-          className="relative z-10 w-full h-auto"
-        />
+
       </div>
+    </div>
 
-      {/* Names */}
-      <h1
-        className="mt-10 text-center text-black text-[48px] sm:text-[64px]"
-        style={{ fontFamily: "var(--font-burgues)" }}
-      >
-        Fara & James
-      </h1>
 
-      {/* Intro text */}
-      <p
-        className="mt-6 text-center max-w-[500px] text-[16px] sm:text-[18px]"
-        style={{
-          fontFamily: "var(--font-suranna)",
-          color: "#60683e",
-        }}
-      >
-        We joyfully invite you to share
-        <br />
-        in our celebration of love and commitment,
-        <br />
-        as we begin this new chapter together
-        <br />
-        surrounded by those who mean the most to us.
-      </p>
-
-      {/* Date */}
-      <div
-        className="mt-10 text-[28px] sm:text-[36px] tracking-[0.3em]"
-        style={{
-          fontFamily: "var(--font-belleza)",
-          color: "#60683e",
-        }}
-      >
-        22 - 07 - 26
-      </div>
-    </section>
   );
 }

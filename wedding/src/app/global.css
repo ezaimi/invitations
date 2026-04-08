@@ -9,6 +9,10 @@ body {
   font-family: var(--font-belleza), serif;
 }
 
+.font-burgues {
+  font-family: var(--font-burgues), cursive;
+}
+
 .font-slight {
   font-family: var(--font-slight), cursive;
 }
