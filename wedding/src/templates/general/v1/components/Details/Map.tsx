@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import DividerText from "./DividerText"
+import DividerText from "../../../../shared/components/DividerText"
 
 import { MapPin, Send } from "lucide-react"
 import gsap from "gsap"
