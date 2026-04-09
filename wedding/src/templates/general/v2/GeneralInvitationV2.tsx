@@ -6,7 +6,7 @@ import Intro from "./components/Intro";
 export default function GeneralInvitationV2({ data }: { data: Invitation }) {
   return (
     <InvitationLayout>
-      <Intro/>
+      <Intro data={data} />
     </InvitationLayout>
   )
 }

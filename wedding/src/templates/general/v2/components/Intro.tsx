@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import type { Invitation } from "@/templates/general/v1/types/Invitation";
 
 const images = [
   "/images/templates/v2/couple1.webp",
@@ -10,7 +11,7 @@ const images = [
   "/images/templates/v2/couple4.jpg",
 ];
 
-export default function Intro() {
+export default function Intro({ data }: { data: Invitation }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function Intro() {
         <h1
           className="text-black text-[48px] sm:text-[64px] font-burgues"
         >
-          Sara & James
+          {data.bride} & {data.groom}
         </h1>
 
         <p
@@ -91,7 +92,7 @@ export default function Intro() {
             color: "#60683e",
           }}
         >
-          22 - 07 - 26
+          {data.date}
         </div>
 
 

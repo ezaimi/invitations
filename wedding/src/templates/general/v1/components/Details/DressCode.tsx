@@ -1,6 +1,6 @@
 "use client"
 
-import DividerText from "./DividerText"
+import DividerText from "../../../../shared/components/DividerText"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
