@@ -5,5 +5,12 @@
     "groom": "Marco",
     "date": "22 July 2026",
     "template": "v1"
+  },
+  {
+    "slug": "era-david",
+    "bride": "Era",
+    "groom": "David",
+    "date": "22 July 2026",
+    "template": "v2"
   }
 ]

@@ -1,33 +1,48 @@
-import Hero from "@/templates/general/v1/components/Hero";
-import Schedule from "@/templates/general/v1/components/Schedule";
-import DressCode from "@/templates/general/v1/components/DressCode";
-import Location from "@/templates/general/v1/components/Location";
-import Countdown from "@/templates/general/v1/components/Countdown";
-import RSVP from "@/templates/general/v1/components/RSVP";
+"use client"
+import React, { useEffect, useState } from 'react'
 
-export default function Home() {
+function Page() {
+  const [number, setNumber] = useState<number>(0)
+
+  useEffect(()=>{
+
+    if(number > 20){
+      setNumber(0)
+    }
+
+  },[number])
+
+
+
   return (
-    <main className="bg-[#e6dfd3] min-h-screen text-[#2c3e50] p-5">
-      {/* <Hero />
-      <Schedule />
-      <DressCode />
-      <Location />
-      */}
-      {/* <Schedule/>
-      <RSVP />
-      <Countdown />  */}
-      <div className="bg-amber-400 h-[200px] flex flex-col justify-end h-[200vh]">
-        <div className="bg-red-400 h-[40px] ">
-          <div className=" h-[20px] w-3 fixed top-0 mb-3 right-1/2  bg-fuchsia-700"> 
-          <div className=" bg-blue-400">1</div>
-           <div className="mb-6 bg-green-400">1</div>
-          
-          </div>
-        </div>
+    <div className='bg-green-100 flex flex-col gap-2 h-[100vh] justify-center items-center'>
+        <User user={{id:1, name:"Eraser", email:"jiod"}}/>
+     <div> {number}</div>
+    <button className=' bg-blue-400 cursor-pointer px-15 py-2 rounded-full ' onClick={()=>{setNumber(number + 1)}}>
    
-      </div>
-
-
-    </main>
-  );
+      <h1>Click me</h1>
+    </button>
+    </div>
+  )
 }
+
+function User({user}:{user:User}){
+
+  return (
+    <>
+    <div>
+      <p>{user.id}</p>
+      <p>{user.name}</p>
+      <p>{user.email}</p>
+    </div>
+    </>
+  )
+}
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+export default Page
