@@ -65,21 +65,21 @@ export default function RingsAnimation() {
     <div ref={containerRef} className="relative w-[120px] h-[100px]">
       <Image
         ref={mergedRef}
-        src="/images/templetes/v1/rings.svg"
+        src="/images/templates/v1/rings.svg"
         alt=""
         fill
         className="opacity-0"
       />
       <Image
         ref={leftRef}
-        src="/images/templetes/v1/leftring.png"
+        src="/images/templates/v1/leftring.png"
         alt=""
         fill
         className="opacity-0"
       />
       <Image
         ref={rightRef}
-        src="/images/templetes/v1/rightring.png"
+        src="/images/templates/v1/rightring.png"
         alt=""
         fill
         className="opacity-0"

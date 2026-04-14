@@ -78,7 +78,7 @@ function AnimatedMap() {
       </div>
 
       <Image
-        src="/images/templetes/v1/map.png"
+        src="/images/templates/v1/map.png"
         alt="map"
         width={530}
         height={100}
