@@ -1,5 +1,6 @@
 "use client";
 
+import DividerText from "@/templates/shared/components/DividerText";
 import { useState } from "react";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -175,90 +176,81 @@ export default function RSVPPage() {
 
   return (
     <>
-          <main className="w-full  min-h-screen px-7 py-12 flex flex-col ">
+      <main className="flex justify-center">
 
-        {/* ── Header ── */}
-        <header className="text-center mb-7 opacity-0 animate-[slideUp_0.5s_ease_0.05s_forwards]">
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <span className="flex-1 max-w-[42px] h-px bg-[#3a3a2e]" />
-            <h1
-              className="text-[28px] leading-none whitespace-nowrap text-[#3a3a2e]"
-              style={{ fontFamily: "var(--font-slight)" }}
+        <div className="w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px] ">
+
+          <header className="text-center space-y-5">
+            <div className="text-[24rem]">
+              <DividerText text="The Celebration"/>
+            </div>
+            <p
+              className="text-[15.5px] leading-[1.65] text-[#3a3a2e] px-1"
+              style={{ fontFamily: "var(--font-belleza)" }}
             >
-              Will you join us?
-            </h1>
-            <span className="flex-1 max-w-[42px] h-px bg-[#3a3a2e]" />
+              Please be so kind as to confirm your attendance by submitting your
+              RSVP no later than April&nbsp;1st, so that we can make the necessary
+              arrangements and plan accordingly for all our guests.
+            </p>
+          </header>
+
+
+          <div className="flex flex-col gap-4">
+            <InputField
+              icon={<PersonIcon />}
+              type="text"
+              placeholder="Full Name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+               
+            <InputField
+              icon={<AtIcon />}
+              type="email"
+              placeholder="e-mail address"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-          <p
-            className="text-[15.5px] leading-[1.65] text-[#3a3a2e] px-1"
-            style={{ fontFamily: "var(--font-belleza)" }}
+
+          <div className="">
+            <GuestCounter count={guestCount} onChange={setGuestCount} />
+          </div>
+
+          {/* ── Wishes ── */}
+          <div
+            className="mt-5 rounded-[20px] px-5 py-5 opacity-0 animate-[slideUp_0.5s_ease_0.33s_forwards]"
+            style={{ backgroundColor: "rgba(195,194,160,0.39)" }}
           >
-            Please be so kind as to confirm your attendance by submitting your
-            RSVP no later than April&nbsp;1st, so that we can make the necessary
-            arrangements and plan accordingly for all our guests.
-          </p>
-        </header>
+            <textarea
+              rows={6}
+              placeholder="Share your wishes..."
+              value={wishes}
+              onChange={(e) => setWishes(e.target.value)}
+              className="w-full bg-transparent border-none outline-none resize-none text-[15.5px] leading-[1.6] text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] focus:ring-0"
+              style={{ fontFamily: "var(--font-belleza)" }}
+            />
+          </div>
 
-        {/* ── Full Name ── */}
-        <div className="opacity-0 animate-[slideUp_0.5s_ease_0.12s_forwards]">
-          <InputField
-            icon={<PersonIcon />}
-            type="text"
-            placeholder="Full Name"
-            autoComplete="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        {/* ── Email ── */}
-        <div className="mt-4 opacity-0 animate-[slideUp_0.5s_ease_0.19s_forwards]">
-          <InputField
-            icon={<AtIcon />}
-            type="email"
-            placeholder="e-mail address"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        {/* ── Guest Counter ── */}
-        <div className="mt-5 opacity-0 animate-[slideUp_0.5s_ease_0.26s_forwards]">
-          <GuestCounter count={guestCount} onChange={setGuestCount} />
-        </div>
-
-        {/* ── Wishes ── */}
-        <div
-          className="mt-5 rounded-[20px] px-5 py-5 opacity-0 animate-[slideUp_0.5s_ease_0.33s_forwards]"
-          style={{ backgroundColor: "rgba(195,194,160,0.39)" }}
-        >
-          <textarea
-            rows={6}
-            placeholder="Share your wishes..."
-            value={wishes}
-            onChange={(e) => setWishes(e.target.value)}
-            className="w-full bg-transparent border-none outline-none resize-none text-[15.5px] leading-[1.6] text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] focus:ring-0"
-            style={{ fontFamily: "var(--font-belleza)" }}
-          />
-        </div>
-
-        {/* ── Buttons ── */}
-        <div className="mt-7 flex gap-3.5 opacity-0 animate-[slideUp_0.5s_ease_0.40s_forwards]">
-          <button
-            onClick={() => setOverlay("accept")}
-            className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
-            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
-          >
-            Joyfylly Accept
-          </button>
-          <button
-            onClick={() => setOverlay("decline")}
-            className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
-            style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
-          >
-            Gracefully Decline
-          </button>
+          {/* ── Buttons ── */}
+          <div className="mt-7 flex gap-3.5 opacity-0 animate-[slideUp_0.5s_ease_0.40s_forwards]">
+            <button
+              onClick={() => setOverlay("accept")}
+              className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
+              style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
+            >
+              Joyfylly Accept
+            </button>
+            <button
+              onClick={() => setOverlay("decline")}
+              className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
+              style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
+            >
+              Gracefully Decline
+            </button>
+          </div>
         </div>
 
       </main>

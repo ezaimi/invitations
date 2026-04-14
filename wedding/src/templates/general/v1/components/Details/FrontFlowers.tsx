@@ -44,13 +44,13 @@ export default function FrontFlowers() {
 
   return (
     <div ref={container}>
-      <Image ref={f1} src="/images/templetes/v1/pink_lilies/2.png" alt="" width={120} height={100}
+      <Image ref={f1} src="/images/templates/v1/pink_lilies/2.png" alt="" width={120} height={100}
         className="object-contain absolute top-2 left-12 z-50" />
 
-      <Image ref={f2} src="/images/templetes/v1/pink_lilies/7.png" alt="" width={80} height={80}
+      <Image ref={f2} src="/images/templates/v1/pink_lilies/7.png" alt="" width={80} height={80}
         className="object-contain absolute right-7 top-9 z-50" />
 
-      <Image ref={f3} src="/images/templetes/v1/pink_lilies/8.png" alt="" width={75} height={60}
+      <Image ref={f3} src="/images/templates/v1/pink_lilies/8.png" alt="" width={75} height={60}
         className="object-contain absolute -right-9 top-28 z-50" />
     </div>
   )

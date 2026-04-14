@@ -1,5 +1,15 @@
+"use client"
+
+import DividerText from "@/templates/shared/components/DividerText"
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Schedule() {
+  const container = useRef<HTMLDivElement>(null)
+
   const program = [
     {
       time: "17:30",
@@ -25,72 +35,114 @@ export default function Schedule() {
       description:
         "Celebrate with us on the dance floor as we enjoy music, laughter, and the evening together.",
     },
-  ];
+  ]
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const items = container.current?.querySelectorAll(".schedule-item")
+      if (!items) return
+  
+      const master = gsap.timeline({
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      })
+  
+      items.forEach((item, i) => {
+        const time  = item.querySelector(".schedule-time")
+        const title = item.querySelector(".schedule-title")
+        const desc  = item.querySelector(".schedule-desc")
+        const line  = item.querySelector(".schedule-line")
+  
+        gsap.set([time, title, desc], {
+          autoAlpha: 0,
+          y: 14,
+        })
+  
+        if (line) {
+          gsap.set(line, {
+            scaleY: 0,
+            autoAlpha: 0,
+            transformOrigin: "top center",
+          })
+        }
+  
+        const tl = gsap.timeline()
+  
+        tl.to(time, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power3.out",
+        })
+          .to(title, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+          }, "-=0.6")
+          .to(desc, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.95,
+            ease: "power3.out",
+          }, "-=0.55")
+  
+        if (line) {
+          tl.to(line, {
+            scaleY: 1,
+            autoAlpha: 1,
+            duration: 0.7,
+            ease: "power2.inOut",
+          }, "-=0.4")
+        }
+  
+        master.add(tl, i === 0 ? "+=0.1" : "-=0.35")
+      })
+    }, container)
+  
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section className="w-full flex flex-col items-center py-16 px-4 bg-[#f5f4ec]">
-      {/* Main Header */}
-      <h2
-        className="text-center mb-12"
-        style={{
-          fontFamily: "var(--font-slight)",
-          color: "#676a26",
-          fontSize: "2rem",
-        }}
-      >
-        — Will you join us? —
-      </h2>
+    <section
+      ref={container}
+      className="w-full flex flex-col gap-12 items-center py-16 px-4 bg-[#f5f4ec]"
+    >
+      <DividerText
+        className="text-[28px] whitespace-nowrap"
+        text="Will  you join us?"
+        animate
+      />
 
-      {/* Timeline */}
       <div className="relative flex flex-col items-center w-full max-w-md">
         {program.map((item, index) => (
-          <div key={index} className="flex flex-col items-center text-center">
-            {/* Time */}
-            <span
-              style={{
-                fontFamily: "var(--font-serenity)",
-                color: "#bf777c",
-                fontSize: "1.5rem",
-                marginBottom: "0.5rem",
-              }}
-            >
+          <div
+            key={index}
+            className="schedule-item flex flex-col items-center text-center"
+          >
+            <span className="schedule-time font-serenity text-[#bf777c] text-[1.5rem]">
               {item.time}
             </span>
 
-            {/* Title */}
-            <h3
-              style={{
-                fontFamily: "var(--font-perandory-condensed)",
-                color: "#4a4a4a",
-                fontSize: "1.4rem",
-                letterSpacing: "0.05em",
-                marginBottom: "0.5rem",
-              }}
-            >
+            <h3 className="schedule-title text-[2rem] tracking-wider font-perandory-condensed text-[#4a4a4a]">
               {item.title}
             </h3>
 
-            {/* Description */}
-            <p
-              className="max-w-xs leading-relaxed"
-              style={{
-                fontFamily: "var(--font-belleza)",
-                color: "#4a4a4a",
-                fontSize: "1rem",
-              }}
-            >
+            <p className="schedule-desc font-belleza px-2 text-[#4a4a4a]">
               {item.description}
             </p>
 
-            {/* Divider */}
             {index !== program.length - 1 && (
               <div className="flex flex-col items-center my-8">
-                <div className="w-[2px] h-12 bg-[#676a26]" />
+                <div className="schedule-line w-[2px] h-12 bg-[#676a26]" />
               </div>
             )}
           </div>
         ))}
       </div>
     </section>
-  );
+  )
 }
