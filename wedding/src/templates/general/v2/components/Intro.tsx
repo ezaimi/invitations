@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Invitation } from "@/templates/general/v1/types/Invitation";
+import SectionSubtitle from "./Subtitle";
 
 const images = [
   "/images/templates/v2/couple1.webp",
@@ -61,21 +62,15 @@ export default function Intro({ data }: { data: Invitation }) {
 
 
       {/* TEXT */}
-      <div className=" inset-0 flex flex-col items-center justify-center text-center px-6 z-20 ">
+      <div className=" inset-0 flex flex-col items-center justify-center text-center px-4 z-20 ml-7">
 
         <h1
-          className="text-black text-[48px] sm:text-[64px] font-burgues"
+          className="text-black text-[53px] sm:text-[64px] font-burgues tracking-[0.05em]"
         >
           {data.bride} & {data.groom}
         </h1>
 
-        <p
-          className="mt-6 max-w-[500px] text-[16px] sm:text-[18px]"
-          style={{
-            fontFamily: "var(--font-suranna)",
-            color: "#60683e",
-          }}
-        >
+        <SectionSubtitle className="text-[#60683e]">
           We joyfully invite you to share
           <br />
           in our celebration of love and commitment,
@@ -83,16 +78,13 @@ export default function Intro({ data }: { data: Invitation }) {
           as we begin this new chapter together
           <br />
           surrounded by those who mean the most to us.
-        </p>
+        </SectionSubtitle>
 
         <div
-          className="mt-10 text-[28px] sm:text-[36px] tracking-[0.3em]"
-          style={{
-            fontFamily: "var(--font-belleza)",
-            color: "#60683e",
-          }}
+          className="mt-10 text-[28px] sm:text-[36px] tracking-[0.5em] font-suranna"
+          style={{ color: "#60683e" }}
         >
-          {data.date}
+          {new Date(data.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
         </div>
 
 

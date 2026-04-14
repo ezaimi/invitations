@@ -26,9 +26,9 @@ export default function Home() {
           </Link>
           <Link
             className="block underline underline-offset-4"
-            href="/220726/era-david"
+            href="/220726/sara-james"
           >
-            /220726/era-david
+            /220726/sara-james
           </Link>
           <Link
             className="block underline underline-offset-4"
