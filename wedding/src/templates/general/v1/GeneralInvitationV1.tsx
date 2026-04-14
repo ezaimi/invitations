@@ -4,6 +4,9 @@ import Schedule from "./components/Schedule";
 import RSVP from "./components/RSVP";
 import InvitationLayout from "./components/InvitationLayout";
 import Details from "./components/Details/Details";
+import Countdown from "./components/Countdown";
+
+
 export default function GeneralInvitationV1({ data }: { data: Invitation }) {
   return (
     <InvitationLayout>
@@ -12,6 +15,9 @@ export default function GeneralInvitationV1({ data }: { data: Invitation }) {
       <Details />
       <Schedule />
       <RSVP />
+      <br />
+      <br />
+      <Countdown/>
     </InvitationLayout>
   )
 }

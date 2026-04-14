@@ -29,12 +29,13 @@ export default function DividerText({
     const chars = text.split("")
 
     el.innerHTML = chars
-      .map(
-        (c) =>
-          `<span class="char inline-block opacity-0 translate-y-[10px]">${c}</span>`
-      )
-      .join("")
-
+    .map((c) =>
+      c === " "
+        ? `<span class="char inline-block opacity-0 translate-y-[10px]">&nbsp;</span>`
+        : `<span class="char inline-block opacity-0 translate-y-[10px]">${c}</span>`
+    )
+    .join("")
+    
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
