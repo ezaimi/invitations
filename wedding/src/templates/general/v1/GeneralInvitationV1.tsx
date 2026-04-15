@@ -11,7 +11,6 @@ export default function GeneralInvitationV1({ data }: { data: Invitation }) {
   return (
     <InvitationLayout>
       <Home data={data}/>
-      <div className="h-[10vh] "></div>
       <Details />
       <Schedule />
       <RSVP />
