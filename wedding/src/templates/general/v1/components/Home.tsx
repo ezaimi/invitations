@@ -8,9 +8,10 @@ import Image from "next/image"
 function Home({ data }: { data: Invitation }) {
   void data
 
-  const posterRef = useRef<HTMLDivElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const revealStartedRef = useRef(false)
+  const posterRef    = useRef<HTMLDivElement>(null)
+  const coupleRef    = useRef<HTMLDivElement>(null)
+  const videoRef     = useRef<HTMLVideoElement>(null)
+  const displaceRef  = useRef<SVGFEDisplacementMapElement>(null)
 
   useEffect(() => {
     const videoHref = "/images/templates/v1/couple.mp4"
@@ -20,75 +21,115 @@ function Home({ data }: { data: Invitation }) {
     preloadLink.href = videoHref
     preloadLink.type = "video/mp4"
     document.head.appendChild(preloadLink)
-
-    return () => {
-      document.head.removeChild(preloadLink)
-    }
+    return () => { document.head.removeChild(preloadLink) }
   }, [])
 
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+    const poster   = posterRef.current
+    const couple   = coupleRef.current
+    const video    = videoRef.current
+    const displace = displaceRef.current
+    if (!poster || !couple || !video || !displace) return
+
     video.load()
-  }, [])
 
-  const revealVideo = () => {
-    if (revealStartedRef.current) return
+    // Keyhole rushes forward immediately
+    gsap.timeline({ delay: 0.3 }).to(poster, {
+      scale: 7,
+      duration: 2.5,
+      ease: "power2.in",
+    })
 
-    const poster = posterRef.current
-    const video = videoRef.current
-    if (!poster || !video) return
-
-    revealStartedRef.current = true
-
-    // Double rAF ensures the first decoded frame is actually painted
-    // before we start the crossfade — prevents the black-frame flash.
-    const runAnimation = () => {
+    const revealVideo = () => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           void video.play().catch(() => {})
 
-          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            gsap.set(video, { opacity: 1, scale: 1 })
-            gsap.set(poster, { opacity: 0 })
-            return
-          }
+          // Crossfade: video fades in while couple + distortion fade out together
+          const obj = { distortion: 12 }
 
-          gsap.set(video, { opacity: 0, scale: 1.06 })
-
-          const tl = gsap.timeline()
-
-          // Poster accelerates toward viewer the whole way through
-          tl.to(poster, {
-            scale: 2.2,
-            duration: 3.0,
-            ease: "power3.in",
-          }, 0)
-          // Fade starts mid-rush — disappears while still flying forward
-          .to(poster, {
-            opacity: 0,
-            duration: 1.0,
-            ease: "power1.in",
-          }, 1.8)
-          // Video fades in underneath
-          .to(video, {
+          gsap.to(video, {
             opacity: 1,
-            scale: 1,
-            duration: 1.4,
+            duration: 2.2,
+            ease: "power1.inOut",
+          })
+
+          gsap.to(obj, {
+            distortion: 0,
+            duration: 2.0,
             ease: "power2.out",
-          }, 1.4)
+            onUpdate() {
+              displace.setAttribute("scale", String(obj.distortion))
+            },
+          })
+
+          gsap.to(couple, {
+            opacity: 0,
+            duration: 2.2,
+            ease: "power1.inOut",
+          })
         })
       })
     }
 
-    runAnimation()
-  }
+    video.addEventListener("loadeddata", revealVideo, { once: true })
+    return () => { video.removeEventListener("loadeddata", revealVideo) }
+  }, [])
 
   return (
     <section
-        className="relative min-h-screen overflow-hidden"
-        style={{ backgroundImage: "url('/images/templates/v1/keyhole_bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+      className="relative min-h-screen overflow-hidden"
+      style={{ backgroundImage: "url('/images/templates/v1/keyhole_bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+    >
+      {/* Glass/water distortion filter */}
+      <svg style={{ position: "absolute", width: 0, height: 0 }}>
+        <defs>
+          <filter id="glass-water" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence
+              type="turbulence"
+              baseFrequency="0.008"
+              numOctaves="3"
+              seed="4"
+              result="noise"
+            />
+            <feDisplacementMap
+              ref={displaceRef}
+              in="SourceGraphic"
+              in2="noise"
+              scale="12"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Couple image with glass/water look */}
+      <div ref={coupleRef} className="absolute inset-0 z-5">
+        <Image
+          src="/images/templates/v1/couple.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ filter: "url(#glass-water)", transform: "scale(1.05)" }}
+        />
+      </div>
+
+      {/* Video — crossfades in as couple fades out */}
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover opacity-0"
+        muted
+        loop
+        playsInline
+        preload="auto"
       >
+        <source src="/images/templates/v1/couple.mp4" type="video/mp4" />
+      </video>
+
+      {/* Keyhole frame — rushes forward */}
       <div ref={posterRef} className="absolute inset-0 z-10 will-change-transform">
         <Image
           src="/images/templates/v1/keyhole_bg.png"
@@ -99,18 +140,6 @@ function Home({ data }: { data: Invitation }) {
           className="object-cover"
         />
       </div>
-
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover opacity-0"
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onLoadedData={revealVideo}
-      >
-        <source src="/images/templates/v1/couple.mp4" type="video/mp4" />
-      </video>
     </section>
   )
 }
