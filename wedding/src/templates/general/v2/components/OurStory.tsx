@@ -114,6 +114,38 @@ export default function Story({
         </button>
       </div>
 
+      {/* Gallery */}
+      <div
+        className={`absolute inset-0 z-20 transition-opacity duration-500 ${
+          showGallery ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-[3px] p-[3px]">
+          {PHOTOS.map((photo, i) => (
+            <div
+              key={i}
+              className={`${photo.className} relative overflow-hidden`}
+              style={{
+                opacity: visiblePhotos[i] ? 1 : 0,
+                transform: visiblePhotos[i] ? "translateY(0)" : "translateY(12px)",
+                transition: "opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }}
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                className="object-cover grayscale"
+                style={{
+                  transform: visiblePhotos[i] ? "scale(1)" : "scale(1.04)",
+                  transition: "filter 1.2s ease, transform 6s ease",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
     </section>
   );
 }
