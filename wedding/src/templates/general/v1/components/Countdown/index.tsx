@@ -51,8 +51,8 @@ function Countdown() {
   }, [])
 
   return (
-    <div className='h-140 flex items-end justify-center'>
-      <div className='h-110 rounded-t-[90%] w-full bg-[#c3c2a0] pb-3 relative max-w-[500px]'>
+    <div className='h-130 flex items-end justify-center'>
+      <div className='h-97 rounded-t-[95%] w-full bg-[#c3c2a0] pb-3 relative max-w-[500px]'>
         <div className="-mt-3 ">
           <AnimatedFlowers />
         </div>

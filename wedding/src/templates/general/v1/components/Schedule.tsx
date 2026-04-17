@@ -1,14 +1,11 @@
 "use client"
 
 import DividerText from "@/templates/shared/components/DividerText"
-import { useEffect, useRef } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect, useRef, useState } from "react"
 
 export default function Schedule() {
-  const container = useRef<HTMLDivElement>(null)
+  const container = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
 
   const program = [
     {
@@ -38,72 +35,22 @@ export default function Schedule() {
   ]
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const items = container.current?.querySelectorAll(".schedule-item")
-      if (!items) return
-  
-      const master = gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      })
-  
-      items.forEach((item, i) => {
-        const time  = item.querySelector(".schedule-time")
-        const title = item.querySelector(".schedule-title")
-        const desc  = item.querySelector(".schedule-desc")
-        const line  = item.querySelector(".schedule-line")
-  
-        gsap.set([time, title, desc], {
-          autoAlpha: 0,
-          y: 14,
-        })
-  
-        if (line) {
-          gsap.set(line, {
-            scaleY: 0,
-            autoAlpha: 0,
-            transformOrigin: "top center",
-          })
-        }
-  
-        const tl = gsap.timeline()
-  
-        tl.to(time, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.85,
-          ease: "power3.out",
-        })
-          .to(title, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.85,
-            ease: "power3.out",
-          }, "-=0.6")
-          .to(desc, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.95,
-            ease: "power3.out",
-          }, "-=0.55")
-  
-        if (line) {
-          tl.to(line, {
-            scaleY: 1,
-            autoAlpha: 1,
-            duration: 0.7,
-            ease: "power2.inOut",
-          }, "-=0.4")
-        }
-  
-        master.add(tl, i === 0 ? "+=0.1" : "-=0.35")
-      })
-    }, container)
-  
-    return () => ctx.revert()
+    const section = container.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (!entry?.isIntersecting) return
+        setIsVisible(true)
+        observer.disconnect()
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -2% 0px" }
+    )
+
+    observer.observe(section)
+
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -111,11 +58,12 @@ export default function Schedule() {
       ref={container}
       className="w-full flex flex-col gap-12 items-center py-16 px-4 bg-[#f5f4ec]"
     >
-      <DividerText
-        className="text-[28px] whitespace-nowrap"
-        text="Will  you join us?"
-        animate
-      />
+      <div className={`schedule-reveal-item reveal-1 ${isVisible ? "is-visible" : ""}`}>
+        <DividerText
+          className="text-[28px] whitespace-nowrap"
+          text="Will  you join us?"
+        />
+      </div>
 
       <div className="relative flex flex-col items-center w-full max-w-md">
         {program.map((item, index) => (
@@ -123,21 +71,36 @@ export default function Schedule() {
             key={index}
             className="schedule-item flex flex-col items-center text-center"
           >
-            <span className="schedule-time font-serenity text-[#bf777c] text-[1.5rem]">
-              {item.time}
-            </span>
+            <div
+              className={`schedule-reveal-item ${
+                index === 0
+                  ? "reveal-2"
+                  : index === 1
+                    ? "reveal-3"
+                    : index === 2
+                      ? "reveal-4"
+                      : "reveal-5"
+              } ${isVisible ? "is-visible" : ""}`}
+            >
+              <span className="schedule-time font-serenity text-[#bf777c] text-[1.5rem]">
+                {item.time}
+              </span>
 
-            <h3 className="schedule-title text-[2rem] tracking-wider font-perandory-condensed text-[#4a4a4a]">
-              {item.title}
-            </h3>
+              <h3 className="schedule-title text-[2rem] tracking-wider font-perandory-condensed text-[#4a4a4a]">
+                {item.title}
+              </h3>
 
-            <p className="schedule-desc font-belleza px-2 text-[#4a4a4a]">
-              {item.description}
-            </p>
+              <p className="schedule-desc font-belleza px-2 text-[#4a4a4a]">
+                {item.description}
+              </p>
+            </div>
 
             {index !== program.length - 1 && (
               <div className="flex flex-col items-center my-8">
-                <div className="schedule-line w-[2px] h-12 bg-[#676a26]" />
+                <div
+                  className={`schedule-line schedule-line-reveal w-[2px] h-16 bg-[#676a26] ${isVisible ? "is-visible" : ""}`}
+                  style={{ animationDelay: `${0.28 + index * 0.18}s` }}
+                />
               </div>
             )}
           </div>

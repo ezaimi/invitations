@@ -8,10 +8,10 @@ import Image from "next/image"
 function Home({ data }: { data: Invitation }) {
   void data
 
-  const posterRef    = useRef<HTMLDivElement>(null)
-  const coupleRef    = useRef<HTMLDivElement>(null)
-  const videoRef     = useRef<HTMLVideoElement>(null)
-  const displaceRef  = useRef<SVGFEDisplacementMapElement>(null)
+  const posterRef   = useRef<HTMLDivElement>(null)
+  const coupleRef   = useRef<HTMLDivElement>(null)
+  const videoRef    = useRef<HTMLVideoElement>(null)
+  const displaceRef = useRef<SVGFEDisplacementMapElement>(null)
 
   useEffect(() => {
     const videoHref = "/images/templates/v1/couple.mp4"
@@ -33,7 +33,6 @@ function Home({ data }: { data: Invitation }) {
 
     video.load()
 
-    // Keyhole rushes forward immediately
     gsap.timeline({ delay: 0.3 }).to(poster, {
       scale: 7,
       duration: 2.5,
@@ -45,14 +44,9 @@ function Home({ data }: { data: Invitation }) {
         requestAnimationFrame(() => {
           void video.play().catch(() => {})
 
-          // Crossfade: video fades in while couple + distortion fade out together
           const obj = { distortion: 12 }
 
-          gsap.to(video, {
-            opacity: 1,
-            duration: 2.2,
-            ease: "power1.inOut",
-          })
+          gsap.to(video, { opacity: 1, duration: 2.2, ease: "power1.inOut" })
 
           gsap.to(obj, {
             distortion: 0,
@@ -63,11 +57,7 @@ function Home({ data }: { data: Invitation }) {
             },
           })
 
-          gsap.to(couple, {
-            opacity: 0,
-            duration: 2.2,
-            ease: "power1.inOut",
-          })
+          gsap.to(couple, { opacity: 0, duration: 2.2, ease: "power1.inOut" })
         })
       })
     }
@@ -79,7 +69,11 @@ function Home({ data }: { data: Invitation }) {
   return (
     <section
       className="relative min-h-screen overflow-hidden"
-      style={{ backgroundImage: "url('/images/templates/v1/keyhole_bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+      style={{
+        backgroundImage: "url('/images/templates/v1/keyhole_bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       {/* Glass/water distortion filter */}
       <svg style={{ position: "absolute", width: 0, height: 0 }}>
@@ -126,7 +120,7 @@ function Home({ data }: { data: Invitation }) {
         playsInline
         preload="auto"
       >
-        <source src="/images/templates/v1/couple.mp4" type="video/mp4" />
+        <source src="/videos/v1/couple-aisle.mp4" type="video/mp4" />
       </video>
 
       {/* Keyhole frame — rushes forward */}
@@ -140,6 +134,7 @@ function Home({ data }: { data: Invitation }) {
           className="object-cover"
         />
       </div>
+
     </section>
   )
 }
