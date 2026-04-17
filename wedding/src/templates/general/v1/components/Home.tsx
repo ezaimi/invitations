@@ -120,7 +120,7 @@ function Home({ data }: { data: Invitation }) {
         playsInline
         preload="auto"
       >
-        <source src="/videos/v1/couple-aisle.mp4" type="video/mp4" />
+        <source src="/videos/v1/couple.mp4" type="video/mp4" />
       </video>
 
       {/* Keyhole frame — rushes forward */}

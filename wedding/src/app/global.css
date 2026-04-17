@@ -87,3 +87,17 @@ body {
 .schedule-line-reveal.is-visible {
   animation: growLineDown 1s ease forwards;
 }
+
+@keyframes countdownRise {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.countdown-reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+}
+
+.countdown-reveal.is-visible {
+  animation: countdownRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
