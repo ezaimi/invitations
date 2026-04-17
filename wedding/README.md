@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Branch Workflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This repo uses a two-step release flow:
 
-## Learn More
+- `testing` is the preview/staging branch
+- `main` is the production branch
 
-To learn more about Next.js, take a look at the following resources:
+Recommended flow:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a feature branch from `testing`.
+2. Build your change and commit it there.
+3. Merge that feature branch into `testing`.
+4. Push `testing` and review the deployed result yourself.
+5. If everything looks good, merge `testing` into `main`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Example:
+
+```bash
+git checkout testing
+git pull origin testing
+git checkout -b feature/my-change
+
+# make changes
+git add -A
+git commit -m "Describe the change"
+git push -u origin feature/my-change
+
+git checkout testing
+git merge feature/my-change
+git push origin testing
+
+# after reviewing the testing deployment
+git checkout main
+git pull origin main
+git merge testing
+git push origin main
+```
+
+## Automation
+
+GitHub Actions now validates:
+
+- pushes to `testing`
+- pushes to `main`
+- pull requests targeting `testing`
+- pull requests targeting `main`
+
+The workflow runs:
+
+- `npm ci`
+- `npm run lint`
+- `npm run build`
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Recommended Vercel setup:
+
+1. Keep `main` as the Production Branch.
+2. Push `testing` whenever you want to review a staging version.
+3. Use Vercel preview deployments for the `testing` branch.
+4. After approval, merge `testing` into `main` for production.
+
+If you want a fixed staging URL, map a staging domain or branch-specific environment in Vercel to `testing`.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
