@@ -10,7 +10,10 @@ import Countdown from "./components/Countdown";
 export default function GeneralInvitationV1({ data }: { data: Invitation }) {
   return (
     <InvitationLayout>
-      <Home data={data}/>
+      <div className="relative">
+        <Home data={data}/>
+      </div>
+      <div className="h-20"></div>
       <Details />
       <Schedule />
       <RSVP />

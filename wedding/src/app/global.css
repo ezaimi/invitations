@@ -43,13 +43,16 @@ body {
   animation: fadeIn 0.25s ease forwards;
 }
 
-/* Stagger reveal on load */
+/* Stagger reveal when content enters the viewport */
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .reveal {
   opacity: 0;
+  transform: translateY(18px);
+}
+.reveal.is-visible {
   animation: slideUp 0.5s ease forwards;
 }
 .reveal-1 { animation-delay: 0.05s; }
@@ -59,3 +62,28 @@ body {
 .reveal-5 { animation-delay: 0.33s; }
 .reveal-6 { animation-delay: 0.40s; }
 .reveal-7 { animation-delay: 0.47s; }
+
+@keyframes growLineDown {
+  from { opacity: 0; transform: scaleY(0); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes scheduleSlideUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.schedule-reveal-item {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.schedule-reveal-item.is-visible {
+  animation: scheduleSlideUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.schedule-line-reveal {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+.schedule-line-reveal.is-visible {
+  animation: growLineDown 1s ease forwards;
+}

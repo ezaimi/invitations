@@ -15,9 +15,32 @@ export default function RSVPPage() {
   const [wishes, setWishes] = useState("")
   const [overlay, setOverlay] = useState<"accept" | "decline" | null>(null)
   const [animating, setAnimating] = useState(false)
-
-  const buttonRef  = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
   const wishesRef  = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const revealItems = Array.from(section.querySelectorAll(".reveal"))
+    if (!revealItems.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          entry.target.classList.add("is-visible")
+          observer.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    )
+
+    revealItems.forEach((item) => observer.observe(item))
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const el = wishesRef.current
@@ -55,12 +78,17 @@ export default function RSVPPage() {
   return (
     <>
       <main className="flex justify-center relative">
+        <SquareMotion
+          buttonRef={buttonRef}
+          trigger={animating}
+          onComplete={handleAnimationComplete}
+        />
+        <div
+          ref={sectionRef}
+          className="w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px] "
+        >
 
-        <SquareMotion buttonRef={buttonRef} trigger={animating} onComplete={handleAnimationComplete} />
-
-        <div className="w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px] ">
-
-          <header className="text-center space-y-5">
+          <header className="text-center space-y-5 reveal reveal-1">
             <div className="text-[24rem]">
               <DividerText text="The Celebration" />
             </div>
@@ -75,30 +103,34 @@ export default function RSVPPage() {
           </header>
 
           <div className="flex flex-col gap-4">
-            <InputField
-              icon={<User size={22} color="white" />}
-              type="text"
-              placeholder="Full Name"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <InputField
-              icon={<AtSign size={22} color="white" />}
-              type="email"
-              placeholder="e-mail address"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <div className="reveal reveal-2">
+              <InputField
+                icon={<User size={22} color="white" />}
+                type="text"
+                placeholder="Full Name"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="reveal reveal-3">
+              <InputField
+                icon={<AtSign size={22} color="white" />}
+                type="email"
+                placeholder="e-mail address"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div>
+          <div className="reveal reveal-4">
             <GuestCounter count={guestCount} onChange={setGuestCount} />
           </div>
 
           <div
-            className="mt-5 rounded-[20px] px-5 py-5"
+            className="mt-5 rounded-[20px] px-5 py-5 reveal reveal-5"
             style={{ backgroundColor: "rgba(195,194,160,0.39)" }}
           >
             <textarea
@@ -111,7 +143,7 @@ export default function RSVPPage() {
             />
           </div>
 
-          <div className="mt-7 flex gap-3.5">
+          <div className="mt-7 flex gap-3.5 reveal reveal-6">
             <button
               ref={buttonRef}
               onClick={handleAccept}
