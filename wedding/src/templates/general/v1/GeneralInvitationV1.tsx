@@ -16,7 +16,9 @@ export default function GeneralInvitationV1({ data }: { data: Invitation }) {
       <div className="h-20"></div>
       <Details />
       <Schedule />
+
       <RSVP />
+      
       <br />
       <br />
       <Countdown/>

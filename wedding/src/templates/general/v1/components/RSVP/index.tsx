@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import DividerText from "@/templates/shared/components/DividerText"
-import { User, AtSign, Mail } from "lucide-react"
+import { User, AtSign } from "lucide-react"
 import InputField from "./InputField"
 import GuestCounter from "./GuestCounter"
 import ConfirmOverlay from "./ConfirmOverlay"
@@ -78,15 +78,16 @@ export default function RSVPPage() {
   return (
     <>
       <main className="flex justify-center relative">
-        <SquareMotion
-          buttonRef={buttonRef}
-          trigger={animating}
-          onComplete={handleAnimationComplete}
-        />
         <div
           ref={sectionRef}
-          className="w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px] "
+          className="relative overflow-visible w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px]"
         >
+          <SquareMotion
+            buttonRef={buttonRef}
+            containerRef={sectionRef}
+            trigger={animating}
+            onComplete={handleAnimationComplete}
+          />
 
           <header className="text-center space-y-5 reveal reveal-1">
             <div className="text-[24rem]">
@@ -150,7 +151,6 @@ export default function RSVPPage() {
               className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
               style={{ backgroundColor: "rgba(195,194,160,1)", fontFamily: "var(--font-belleza)" }}
             >
-              <Mail size={16} className="inline mr-2" />
               Joyfylly Accept
             </button>
             <button
