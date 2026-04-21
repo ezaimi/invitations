@@ -2,11 +2,11 @@
 
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
-import type { Invitation } from "@/templates/general/v1/types/Invitation"
+import type { V1HomeData } from "@/templates/general/v1/types/Invitation"
 import Image from "next/image"
 
-function Home({ data }: { data: Invitation }) {
-  void data
+function Home({ data }: { data: V1HomeData }) {
+  const { brideName, groomName, videoSrc } = data
 
   const posterRef   = useRef<HTMLDivElement>(null)
   const coupleRef   = useRef<HTMLDivElement>(null)
@@ -14,7 +14,7 @@ function Home({ data }: { data: Invitation }) {
   const displaceRef = useRef<SVGFEDisplacementMapElement>(null)
 
   useEffect(() => {
-    const videoHref = "/images/templates/v1/couple.mp4"
+    const videoHref = videoSrc
     const preloadLink = document.createElement("link")
     preloadLink.rel = "preload"
     preloadLink.as = "video"
@@ -22,7 +22,7 @@ function Home({ data }: { data: Invitation }) {
     preloadLink.type = "video/mp4"
     document.head.appendChild(preloadLink)
     return () => { document.head.removeChild(preloadLink) }
-  }, [])
+  }, [videoSrc])
 
   useEffect(() => {
     const poster   = posterRef.current
@@ -68,7 +68,7 @@ function Home({ data }: { data: Invitation }) {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative h-[105vh] overflow-hidden"
       style={{
         backgroundImage: "url('/images/templates/v1/keyhole_bg.png')",
         backgroundSize: "cover",
@@ -102,7 +102,7 @@ function Home({ data }: { data: Invitation }) {
       <div ref={coupleRef} className="absolute inset-0 z-5">
         <Image
           src="/images/templates/v1/couple.png"
-          alt=""
+          alt={`${brideName} and ${groomName}`}
           fill
           priority
           sizes="100vw"
@@ -120,7 +120,7 @@ function Home({ data }: { data: Invitation }) {
         playsInline
         preload="auto"
       >
-        <source src="/videos/v1/couple.mp4" type="video/mp4" />
+        <source src={videoSrc} type="video/mp4" />
       </video>
 
       {/* Keyhole frame — rushes forward */}

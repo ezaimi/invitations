@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Invitation } from "@/templates/general/v1/types/Invitation";
+import { formatInvitationDate } from "@/lib/formatInvitationDate";
 import SectionSubtitle from "./Subtitle";
 
 const images = [
@@ -84,7 +85,7 @@ export default function Intro({ data }: { data: Invitation }) {
           className="mt-10 text-[28px] sm:text-[36px] tracking-[0.5em] font-suranna"
           style={{ color: "#60683e" }}
         >
-          {new Date(data.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
+          {formatInvitationDate(data.date)}
         </div>
 
 

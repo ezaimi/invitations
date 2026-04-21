@@ -10,12 +10,14 @@ type Props = {
   text: string
   className?: string
   animate?: boolean
+  triggerStart?: string
 }
 
 export default function DividerText({
   text,
   className,
   animate = false,
+  triggerStart = "top 85%",
 }: Props) {
   const containerRef = useRef<HTMLParagraphElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
@@ -39,7 +41,7 @@ export default function DividerText({
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 85%",
+        start: triggerStart,
         toggleActions: "play none none none",
       },
     })
@@ -71,7 +73,7 @@ export default function DividerText({
         { scaleX: 1, duration: 0.4, ease: "power2.out" },
         "-=0.2"
       )
-  }, [animate, text])
+  }, [animate, text, triggerStart])
 
   return (
     <p

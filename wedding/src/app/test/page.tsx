@@ -1,48 +1,41 @@
 "use client"
-import React, { useEffect, useState } from 'react'
 
-function Page() {
-  const [number, setNumber] = useState<number>(0)
+import { AtSign, User } from "lucide-react"
 
-  useEffect(()=>{
+import RSVP, { ConfirmOverlay } from "@/templates/shared/components/RSVP"
 
-    if(number > 20){
-      setNumber(0)
-    }
-
-  },[number])
-
-
-
+export default function Page() {
   return (
-    <div className='bg-green-100 flex flex-col gap-2 h-[100vh] justify-center items-center'>
-        <User user={{id:1, name:"Eraser", email:"jiod"}}/>
-     <div> {number}</div>
-    <button className=' bg-blue-400 cursor-pointer px-15 py-2 rounded-full ' onClick={()=>{setNumber(number + 1)}}>
-   
-      <h1>Click me</h1>
-    </button>
+    <div className="min-h-screen bg-[#f5f4ec] py-10">
+      <RSVP
+        accentColor="#c3c2a0"
+        birdAnimationSrc="/images/templates/v1/bird.gif"
+        confirmOverlay={ConfirmOverlay}
+        guestStepperButtonClassName="bg-[#e8a4a8]"
+        guestNumberClassName="text-gray-500"
+        guestIconClassName="text-[#f7f3e8] w-[14px] h-[14px]"
+        title="The Celebration"
+        titleClassName="text-[23px] text-[#676a26] whitespace-nowrap"
+        introText={
+          <>
+            Please be so kind as to confirm your attendance by submitting your RSVP no
+            later than April&nbsp;1st, so that we can make the necessary arrangements
+            and plan accordingly for all our guests.
+          </>
+        }
+        nameField={{
+          icon: <User size={22} color="white" />,
+          placeholder: "Full Name",
+          autoComplete: "name",
+          type: "text",
+        }}
+        emailField={{
+          icon: <AtSign size={22} color="white" />,
+          placeholder: "e-mail address",
+          autoComplete: "email",
+          type: "email",
+        }}
+      />
     </div>
   )
 }
-
-function User({user}:{user:User}){
-
-  return (
-    <>
-    <div>
-      <p>{user.id}</p>
-      <p>{user.name}</p>
-      <p>{user.email}</p>
-    </div>
-    </>
-  )
-}
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-
-export default Page
