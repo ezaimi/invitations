@@ -18,60 +18,81 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
 
     const el = pinRef.current
     const mapImage = mapImageRef.current
+    const container = containerRef.current
 
-    gsap.set(mapImage, {
-      opacity: 0,
-      scale: 1.03,
-    })
+    const ctx = gsap.context(() => {
+      gsap.set(el, {
+        x: -120,
+        y: -120,
+        scale: 0.7,
+        opacity: 0,
+      })
 
-    gsap.set(el, {
-      x: -120,
-      y: -120,
-      scale: 0.7,
-      opacity: 0,
-    })
+      const animateIn = () => {
+        const tl = gsap.timeline()
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
+        tl.fromTo(
+          mapImage,
+          {
+            opacity: 0,
+            scale: 1.03,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.6,
+            ease: "power3.out",
+            immediateRender: false,
+          }
+        ).to(el, {
+          motionPath: {
+            path: [
+              { x: -120, y: -120 },
+              { x: 100, y: -80 },
+              { x: -90, y: 90 },
+              { x: 70, y: 40 },
+              { x: -40, y: -30 },
+              { x: 20, y: 10 },
+              { x: 0, y: 0 },
+            ],
+            curviness: 2,
+          },
+          opacity: 1,
+          scale: 1,
+          duration: 2.6,
+          ease: "sine.out",
+        })
+          .to(el, {
+            y: 6,
+            duration: 0.15,
+            ease: "power1.inOut",
+          })
+          .to(el, {
+            y: 0,
+            duration: 0.15,
+            ease: "power1.inOut",
+          })
+      }
+
+      const top = container.getBoundingClientRect().top
+      const triggerPoint = window.innerHeight * 0.8
+
+      if (top <= triggerPoint) {
+        animateIn()
+        return
+      }
+
+      ScrollTrigger.create({
+        trigger: container,
         start: "top 80%",
-        toggleActions: "play none none none",
-      },
-    })
+        once: true,
+        onEnter: animateIn,
+      })
 
-    tl.to(mapImage, {
-      opacity: 1,
-      scale: 1,
-      duration: 1.6,
-      ease: "power3.out",
-    }).to(el, {
-      motionPath: {
-        path: [
-          { x: -120, y: -120 },
-          { x: 100, y: -80 },
-          { x: -90, y: 90 },
-          { x: 70, y: 40 },
-          { x: -40, y: -30 },
-          { x: 20, y: 10 },
-          { x: 0, y: 0 },
-        ],
-        curviness: 2,
-      },
-      opacity: 1,
-      scale: 1,
-      duration: 2.6,
-      ease: "sine.out",
-    })
-      .to(el, {
-        y: 6,
-        duration: 0.15,
-        ease: "power1.inOut",
-      })
-      .to(el, {
-        y: 0,
-        duration: 0.15,
-        ease: "power1.inOut",
-      })
+      ScrollTrigger.refresh()
+    }, containerRef)
+
+    return () => ctx.revert()
   }, [])
 
   return (

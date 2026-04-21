@@ -106,7 +106,7 @@ export default function Schedule({ items }: { items: V1ScheduleItem[] }) {
   return (
     <section
       ref={container}
-      className="w-full flex flex-col gap-12 items-center py-16 px-4 bg-[#f5f4ec]"
+      className="w-full flex flex-col gap-12 items-center py-16 px-4"
     >
       <div ref={headingRef}>
         <DividerText

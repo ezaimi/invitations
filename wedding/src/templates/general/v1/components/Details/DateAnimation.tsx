@@ -1,43 +1,48 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useEffect, useRef, useState } from "react"
 import type { V1InvitationDate } from "@/templates/general/v1/types/Invitation"
-
-gsap.registerPlugin(ScrollTrigger)
 
 export default function DateAnimation({ date }: { date: V1InvitationDate }) {
   const containerRef = useRef<HTMLTimeElement>(null)
+  const partsRef = useRef<Array<HTMLSpanElement | null>>([])
+  const [visibleParts, setVisibleParts] = useState<boolean[]>(
+    () => date.parts.map(() => false)
+  )
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const spans = containerRef.current?.querySelectorAll("span")
-      if (!spans) return
+    const elements = partsRef.current.filter(
+      (part): part is HTMLSpanElement => Boolean(part)
+    )
+    if (!elements.length) return
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-          once: true
-        },
-        defaults: { ease: "power3.out" }
-      })
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
 
-      tl.from(spans, {
-        y: -50,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.35
-      })
+          const index = Number(
+            (entry.target as HTMLSpanElement).dataset.partIndex ?? -1
+          )
+          if (index < 0) return
 
-    }, containerRef)
+          setVisibleParts((current) => {
+            if (current[index]) return current
+            const next = [...current]
+            next[index] = true
+            return next
+          })
 
-    ScrollTrigger.refresh()
+          observer.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.65 }
+    )
 
-    return () => ctx.revert()
-  }, [])
+    elements.forEach((element) => observer.observe(element))
+
+    return () => observer.disconnect()
+  }, [date.parts])
 
   return (
     <time
@@ -46,7 +51,18 @@ export default function DateAnimation({ date }: { date: V1InvitationDate }) {
       className="flex flex-col items-center font-serenity -mt-10 text-[#676a26] text-[6rem] leading-[1.3] relative"
     >
       {date.parts.map((val, i) => (
-        <span key={i} className="relative flex justify-center">
+        <span
+          key={i}
+          ref={(element) => {
+            partsRef.current[i] = element
+          }}
+          data-part-index={i}
+          className={`relative flex justify-center transition-all duration-[1200ms] ease-out ${
+            visibleParts[i]
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-12 opacity-0"
+          }`}
+        >
           {val}
         </span>
       ))}

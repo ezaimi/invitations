@@ -16,7 +16,9 @@ function Countdown({ data }: { data: V1CountdownData }) {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
-        setIsVisible(Boolean(entry?.isIntersecting))
+        if (!entry?.isIntersecting) return
+        setIsVisible(true)
+        observer.disconnect()
       },
       { threshold: 0.45 }
     )

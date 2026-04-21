@@ -15,26 +15,33 @@ export default function DressCode({
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const circlesRef = useRef<HTMLDivElement[]>([])
+  const circlesRowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(circlesRef.current, {
-        y: 40,
-        opacity: 0,
-      })
+      const circles = circlesRef.current.filter(Boolean)
+      if (!circles.length || !circlesRowRef.current) return
 
-      gsap.to(circlesRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "power3.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 95%",
-          toggleActions: "play none none none",
+      gsap.fromTo(
+        circles,
+        {
+          y: 40,
+          opacity: 0,
         },
-      })
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: circlesRowRef.current,
+            start: "top 92%",
+            toggleActions: "play none none none",
+            once: true,
+          },
+        }
+      )
     }, containerRef)
 
     return () => ctx.revert()
@@ -63,7 +70,7 @@ export default function DressCode({
         <span>suitable for an evening celebration.</span>
       </p>
 
-      <div className="flex gap-2 mt-4">
+      <div ref={circlesRowRef} className="flex gap-2 mt-4">
         {colors.map(
           (color, i) => (
             <div

@@ -22,7 +22,9 @@ function Details({ data }: { data: V1DetailsData }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 const [entry] = entries
-                setIsIntroVisible(Boolean(entry?.isIntersecting))
+                if (!entry?.isIntersecting) return
+                setIsIntroVisible(true)
+                observer.disconnect()
             },
             { threshold: 0.4 }
         )

@@ -44,7 +44,9 @@ function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
-        setIsCardVisible(Boolean(entry?.isIntersecting))
+        if (!entry?.isIntersecting) return
+        setIsCardVisible(true)
+        observer.disconnect()
       },
       { threshold: 0.35 }
     )
@@ -64,7 +66,7 @@ function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
 
       <div
         ref={cardRef}
-        className={`mt-4 flex w-full items-center justify-between rounded-2xl bg-[#f9faf9]/95 px-4 py-2 countdown-reveal ${
+        className={`mt-4 flex w-full items-center justify-between rounded-2xl  px-4 py-2 countdown-reveal ${
           isCardVisible ? "is-visible" : ""
         }`}
       >
@@ -83,7 +85,7 @@ function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
           </div>
         </div>
 
-        <button className="ml-2 flex shrink-0 items-center gap-1.5 rounded-full bg-[#6f7f5c] px-2.5 py-2 text-[0.56rem] tracking-[1.8px] text-[#f0ecec] transition hover:opacity-90 sm:ml-3 sm:gap-2 sm:px-3 sm:text-[0.6rem] sm:tracking-[2.5px]">
+        <button className="ml-2 flex shrink-0 items-center gap-1.5 rounded-full bg-[#6f7f5c] px-2.5 py-2 text-[0.56rem] tracking-[1px] text-[#f0ecec] transition hover:opacity-90 sm:ml-3 sm:gap-2 sm:px-3 sm:text-[0.6rem] sm:tracking-[2.5px]">
           <Send ref={iconRef} className="w-4 h-4" />
           <span ref={textRef}>DIRECTIONS</span>
         </button>
