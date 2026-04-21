@@ -8,14 +8,21 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(MotionPathPlugin, ScrollTrigger)
 
-function AnimatedMap() {
+function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
   const pinRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const mapImageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
-    if (!pinRef.current || !containerRef.current) return
+    if (!pinRef.current || !containerRef.current || !mapImageRef.current) return
 
     const el = pinRef.current
+    const mapImage = mapImageRef.current
+
+    gsap.set(mapImage, {
+      opacity: 0,
+      scale: 1.03,
+    })
 
     gsap.set(el, {
       x: -120,
@@ -32,7 +39,12 @@ function AnimatedMap() {
       },
     })
 
-    tl.to(el, {
+    tl.to(mapImage, {
+      opacity: 1,
+      scale: 1,
+      duration: 1.6,
+      ease: "power3.out",
+    }).to(el, {
       motionPath: {
         path: [
           { x: -120, y: -120 },
@@ -66,7 +78,7 @@ function AnimatedMap() {
     <div ref={containerRef} className="relative">
       <div
         ref={pinRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -mt-3 -ml-1"
+        className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-3 -ml-1"
       >
         <Image
           src="/icons/templetes/v1/pin.png"
@@ -78,11 +90,12 @@ function AnimatedMap() {
       </div>
 
       <Image
-        src="/images/templates/v1/map.png"
+        src={mapImageSrc}
         alt="map"
         width={530}
         height={100}
-        className="w-full object-cover rounded-xl mt-4"
+        ref={mapImageRef}
+        className="relative z-0 mt-4 w-full rounded-xl object-cover"
       />
     </div>
   )
