@@ -16,6 +16,8 @@ function AnimatedFlowers() {
   useEffect(() => {
     if (!container.current || !flower1.current || !flower2.current || !flower3.current) return
 
+    gsap.set(flower1.current, { xPercent: -50 })
+
     const center = container.current.getBoundingClientRect()
 
     const getOffset = (el: HTMLDivElement) => {
@@ -62,7 +64,7 @@ function AnimatedFlowers() {
 
   return (
     <div ref={container}>
-      <div ref={flower1} className="absolute left-1/2 -translate-x-1/2 z-30 -mt-10">
+      <div ref={flower1} className="absolute left-1/2 z-30 -mt-10 ">
         <Image
           src="/images/templates/v1/pink_lilies/6.png"
           alt="Example image"

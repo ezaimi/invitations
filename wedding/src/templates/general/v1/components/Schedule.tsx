@@ -1,56 +1,106 @@
 "use client"
 
 import DividerText from "@/templates/shared/components/DividerText"
-import { useEffect, useRef, useState } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useEffect, useRef } from "react"
+import type { V1ScheduleItem } from "@/templates/general/v1/types/Invitation"
 
-export default function Schedule() {
+gsap.registerPlugin(ScrollTrigger)
+
+export default function Schedule({ items }: { items: V1ScheduleItem[] }) {
   const container = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  const program = [
-    {
-      time: "17:30",
-      title: "GUEST ARRIVAL",
-      description:
-        "Please arrive, find your seats, and settle in as we prepare to begin the ceremony.",
-    },
-    {
-      time: "18:00",
-      title: "CEREMONY",
-      description:
-        "Join us as we exchange our vows and celebrate the start of our life together.",
-    },
-    {
-      time: "19:00",
-      title: "COCKTAIL HOUR",
-      description:
-        "Enjoy a selection of drinks and light bites while mingling with family and friends.",
-    },
-    {
-      time: "20:00",
-      title: "PARTY & DINNER",
-      description:
-        "Celebrate with us on the dance floor as we enjoy music, laughter, and the evening together.",
-    },
-  ]
+  const headingRef = useRef<HTMLDivElement>(null)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const lineRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
-    const section = container.current
-    if (!section) return
+    const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { opacity: 0, y: 32 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        )
+      }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries
-        if (!entry?.isIntersecting) return
-        setIsVisible(true)
-        observer.disconnect()
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -2% 0px" }
-    )
+      itemRefs.current.forEach((item) => {
+        if (!item) return
 
-    observer.observe(section)
+        const timeEl = item.querySelector(".schedule-time")
+        const titleEl = item.querySelector(".schedule-title")
+        const descriptionEl = item.querySelector(".schedule-desc")
 
-    return () => observer.disconnect()
+        gsap.set([timeEl, titleEl, descriptionEl], { opacity: 0, y: 28 })
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: item,
+            start: "top 82%",
+            toggleActions: "play none none none",
+          },
+        })
+
+        tl.to(timeEl, {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: "power3.out",
+        })
+          .to(
+            titleEl,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: "power3.out",
+            },
+            "-=0.45"
+          )
+          .to(
+            descriptionEl,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: "power3.out",
+            },
+            "-=0.42"
+          )
+      })
+
+      lineRefs.current.forEach((line) => {
+        if (!line) return
+
+        gsap.fromTo(
+          line,
+          { opacity: 0, scaleY: 0, transformOrigin: "top center" },
+          {
+            opacity: 1,
+            scaleY: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: line,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        )
+      })
+    }, container)
+
+    return () => ctx.revert()
   }, [])
 
   return (
@@ -58,29 +108,24 @@ export default function Schedule() {
       ref={container}
       className="w-full flex flex-col gap-12 items-center py-16 px-4 bg-[#f5f4ec]"
     >
-      <div className={`schedule-reveal-item reveal-1 ${isVisible ? "is-visible" : ""}`}>
+      <div ref={headingRef}>
         <DividerText
-          className="text-[28px] whitespace-nowrap"
+          className="text-[28px] text-[#676a26] whitespace-nowrap"
           text="Will  you join us?"
         />
       </div>
 
       <div className="relative flex flex-col items-center w-full max-w-md">
-        {program.map((item, index) => (
+        {items.map((item, index) => (
           <div
             key={index}
             className="schedule-item flex flex-col items-center text-center"
           >
             <div
-              className={`schedule-reveal-item ${
-                index === 0
-                  ? "reveal-2"
-                  : index === 1
-                    ? "reveal-3"
-                    : index === 2
-                      ? "reveal-4"
-                      : "reveal-5"
-              } ${isVisible ? "is-visible" : ""}`}
+              ref={(el) => {
+                itemRefs.current[index] = el
+              }}
+              className="flex flex-col items-center text-center"
             >
               <span className="schedule-time font-serenity text-[#bf777c] text-[1.5rem]">
                 {item.time}
@@ -95,11 +140,13 @@ export default function Schedule() {
               </p>
             </div>
 
-            {index !== program.length - 1 && (
+            {index !== items.length - 1 && (
               <div className="flex flex-col items-center my-8">
                 <div
-                  className={`schedule-line schedule-line-reveal w-[2px] h-16 bg-[#676a26] ${isVisible ? "is-visible" : ""}`}
-                  style={{ animationDelay: `${0.28 + index * 0.18}s` }}
+                  ref={(el) => {
+                    lineRefs.current[index] = el
+                  }}
+                  className="schedule-line w-[2px] h-16 bg-[#676a26]"
                 />
               </div>
             )}
