@@ -1,4 +1,5 @@
-import type { Invitation } from "@/templates/general/v1/types/Invitation";
+import type { Invitation, PartialV1TemplateData } from "@/templates/general/v1/types/Invitation";
+import { resolveV1TemplateData } from "@/templates/general/v1/defaultTemplateData";
 import invitationsData from "@/data/invitations.json";
 
 export type InvitationTemplate = "v1" | "v2";
@@ -13,6 +14,9 @@ type InvitationEntry = {
   groom: string;
   date: string;
   template: InvitationTemplate;
+  templateData?: {
+    v1?: PartialV1TemplateData;
+  };
 };
 
 const invitations = invitationsData as InvitationEntry[];
@@ -91,11 +95,21 @@ export function buildInvitationFromRoute({
 }): RoutedInvitation | null {
   const saved = invitations.find((i) => i.slug === coupleSlug);
   if (saved) {
+    const baseInvitation = {
+      bride: saved.bride,
+      groom: saved.groom,
+      date: saved.date,
+      templateData: saved.templateData,
+    };
+
     return {
       bride: saved.bride,
       groom: saved.groom,
       date: saved.date,
       template: templateSlug ? parseTemplate(templateSlug) : saved.template,
+      templateData: {
+        v1: resolveV1TemplateData(baseInvitation),
+      },
     };
   }
 
@@ -110,5 +124,13 @@ export function buildInvitationFromRoute({
     ...couple,
     date,
     template: parseTemplate(templateSlug),
+    templateData: {
+      v1: resolveV1TemplateData({
+        bride: couple.bride,
+        groom: couple.groom,
+        date,
+        templateData: undefined,
+      }),
+    },
   };
 }

@@ -4,7 +4,54 @@
     "bride": "Anna",
     "groom": "Marco",
     "date": "22 July 2026",
-    "template": "v1"
+    "template": "v1",
+    "templateData": {
+      "v1": {
+        "home": {
+          "brideName": "Anna",
+          "groomName": "Marco",
+          "videoSrc": "/videos/v1/couple.mp4"
+        },
+        "details": {
+          "date": {
+            "iso": "2026-07-22",
+            "parts": ["22", "07", "26"]
+          },
+          "mapImageSrc": "/images/templates/v1/map.png",
+          "dressCodeColors": ["#b7b37a", "#9fb6cf", "#cfa3a1", "#d9c38f", "#d9d69b"]
+        },
+        "schedule": {
+          "items": [
+            {
+              "time": "17:30",
+              "title": "GUEST ARRIVAL",
+              "description": "Please arrive, find your seats, and settle in as we prepare to begin the ceremony."
+            },
+            {
+              "time": "18:00",
+              "title": "CEREMONY",
+              "description": "Join us as we exchange our vows and celebrate the start of our life together."
+            },
+            {
+              "time": "19:00",
+              "title": "COCKTAIL HOUR",
+              "description": "Enjoy a selection of drinks and light bites while mingling with family and friends."
+            },
+            {
+              "time": "20:00",
+              "title": "PARTY & DINNER",
+              "description": "Celebrate with us on the dance floor as we enjoy music, laughter, and the evening together."
+            }
+          ]
+        },
+        "rsvp": {
+          "birdAnimationSrc": "/images/templates/v1/bird.gif"
+        },
+        "countdown": {
+          "targetDateTime": "2026-07-22T17:30:00"
+        }
+      }
+    }
   },
   {
     "slug": "sara-james",
