@@ -1,13 +1,23 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import type { InputHTMLAttributes, ReactNode } from "react"
 
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: React.ReactNode
+import { withAlpha } from "./color"
+
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  accentColor: string
+  icon: ReactNode
 }
 
-export default function InputField({ icon, placeholder, ...inputProps }: InputFieldProps) {
+export default function InputField({
+  accentColor,
+  icon,
+  placeholder,
+  ...inputProps
+}: InputFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [isFocused, setIsFocused] = useState(false)
 
   useEffect(() => {
     const el = inputRef.current
@@ -38,12 +48,15 @@ export default function InputField({ icon, placeholder, ...inputProps }: InputFi
 
   return (
     <div
-      className="flex items-center rounded-full overflow-hidden transition-shadow duration-200 focus-within:ring-2 focus-within:ring-[rgba(195,194,160,0.7)]"
-      style={{ backgroundColor: "rgba(195,194,160,0.39)" }}
+      className="flex items-center rounded-full overflow-hidden transition-shadow duration-200"
+      style={{
+        backgroundColor: withAlpha(accentColor, 39),
+        boxShadow: isFocused ? `0 0 0 2px ${withAlpha(accentColor, 70)}` : undefined,
+      }}
     >
       <div
         className="w-14 h-14 min-w-[56px] rounded-full flex items-center justify-center m-1"
-        style={{ backgroundColor: "rgba(195,194,160,1)" }}
+        style={{ backgroundColor: accentColor }}
       >
         {icon}
       </div>
@@ -51,6 +64,14 @@ export default function InputField({ icon, placeholder, ...inputProps }: InputFi
         ref={inputRef}
         {...inputProps}
         placeholder=""
+        onFocus={(event) => {
+          setIsFocused(true)
+          inputProps.onFocus?.(event)
+        }}
+        onBlur={(event) => {
+          setIsFocused(false)
+          inputProps.onBlur?.(event)
+        }}
         className="flex-1 bg-transparent border-none outline-none text-base text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] py-4 pr-5 pl-3"
         style={{ fontFamily: "var(--font-belleza)" }}
       />
