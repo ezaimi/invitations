@@ -6,6 +6,7 @@ export interface V1InvitationDate {
 export interface V1HomeData {
   brideName: string
   groomName: string
+  dateText: string
   videoSrc: string
 }
 

@@ -53,6 +53,11 @@ function toDateParts(isoDate: string): [string, string, string] {
   return [day, month, year.slice(-2)]
 }
 
+function toDateText(isoDate: string) {
+  const [day, month, year] = toDateParts(isoDate)
+  return `${day}.${month}.20${year}`
+}
+
 export function buildDefaultV1TemplateData({
   bride,
   groom,
@@ -64,6 +69,7 @@ export function buildDefaultV1TemplateData({
     home: {
       brideName: bride,
       groomName: groom,
+      dateText: toDateText(isoDate),
       videoSrc: "/videos/v1/couple.mp4",
     },
     details: {
