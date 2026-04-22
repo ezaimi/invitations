@@ -61,7 +61,7 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
           scale: 1,
           duration: 2.6,
           ease: "sine.out",
-        })
+        }, "-=1.2")
           .to(el, {
             y: 6,
             duration: 0.15,
@@ -75,7 +75,7 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
       }
 
       const top = container.getBoundingClientRect().top
-      const triggerPoint = window.innerHeight * 0.8
+      const triggerPoint = window.innerHeight * 0.9
 
       if (top <= triggerPoint) {
         animateIn()
@@ -84,7 +84,7 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
 
       ScrollTrigger.create({
         trigger: container,
-        start: "top 80%",
+        start: "top 90%",
         once: true,
         onEnter: animateIn,
       })

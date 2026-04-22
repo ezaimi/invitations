@@ -75,7 +75,7 @@ function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
             <MapPin className="w-4 h-4 text-[#6f7f5c]" />
           </div>
 
-          <div className="w-0 min-w-[92px] max-w-[140px] flex-1 font-belleza">
+          <div className="w-0 min-w-[92px] max-w-[140px] -ml-1 flex-1 font-belleza">
             <h3 className="block w-full truncate text-[#131313] text-[0.8rem] font-medium">
               Rose Garden Estate
             </h3>
