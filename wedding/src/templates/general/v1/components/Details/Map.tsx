@@ -59,7 +59,7 @@ function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
   return (
     <div className="flex w-full flex-col items-center px-8">
       <header className="flex items-center gap-4 text-[#676a26]">
-        <DividerText text="Find us here" animate />
+        <DividerText text="Find us here" animate triggerStart="top bottom" />
       </header>
 
       <AnimatedMap mapImageSrc={data.mapImageSrc} />

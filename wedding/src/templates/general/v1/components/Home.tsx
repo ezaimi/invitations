@@ -132,7 +132,7 @@ function Home({ data }: { data: V1HomeData }) {
             stagger: 0.22,
             ease: "power2.out",
           },
-          "+=0.08"
+          "-=1.1"
         )
     })
 
