@@ -12,6 +12,7 @@ export default function RSVPPage({ data }: { data: V1RSVPData }) {
     <RSVP
       accentColor={V1_ACCENT_COLOR}
       acceptButtonLabel="Joyfylly Accept"
+      animateTitle
       birdAnimationAlt="bird"
       birdAnimationSrc={data.birdAnimationSrc}
       confirmOverlay={ConfirmOverlay}
@@ -21,7 +22,7 @@ export default function RSVPPage({ data }: { data: V1RSVPData }) {
       guestNumberClassName="text-[#3a3a2e]"
       guestStepperButtonClassName="bg-[#e8a4a8]"
       title="The Celebration"
-      titleClassName="text-[23px] text-[#676a26] whitespace-nowrap"
+      titleClassName="text-[1.1rem] text-[#676a26] whitespace-nowrap"
       introText={
         <>
           Please be so kind as to confirm your attendance by submitting your RSVP no

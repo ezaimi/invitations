@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { MotionPathPlugin } from "gsap/MotionPathPlugin"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -11,13 +11,31 @@ gsap.registerPlugin(MotionPathPlugin, ScrollTrigger)
 function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
   const pinRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const mapImageRef = useRef<HTMLImageElement>(null)
+  const [isMapVisible, setIsMapVisible] = useState(false)
 
   useEffect(() => {
-    if (!pinRef.current || !containerRef.current || !mapImageRef.current) return
+    const container = containerRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (!entry?.isIntersecting) return
+        setIsMapVisible(true)
+        observer.disconnect()
+      },
+      { threshold: 0.18 }
+    )
+
+    observer.observe(container)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!pinRef.current || !containerRef.current) return
 
     const el = pinRef.current
-    const mapImage = mapImageRef.current
     const container = containerRef.current
 
     const ctx = gsap.context(() => {
@@ -31,20 +49,7 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
       const animateIn = () => {
         const tl = gsap.timeline()
 
-        tl.fromTo(
-          mapImage,
-          {
-            opacity: 0,
-            scale: 1.03,
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1.6,
-            ease: "power3.out",
-            immediateRender: false,
-          }
-        ).to(el, {
+        tl.to(el, {
           motionPath: {
             path: [
               { x: -120, y: -120 },
@@ -115,8 +120,9 @@ function AnimatedMap({ mapImageSrc }: { mapImageSrc: string }) {
         alt="map"
         width={530}
         height={100}
-        ref={mapImageRef}
-        className="relative z-0 mt-4 w-full rounded-xl object-cover"
+        className={`relative z-0 mt-4 w-full rounded-xl object-cover countdown-reveal ${
+          isMapVisible ? "is-visible" : ""
+        }`}
       />
     </div>
   )

@@ -21,6 +21,7 @@ export interface SharedRSVPProps {
   accentColor?: string
   acceptButtonLabel?: string
   acceptOverlay?: RSVPOverlayContent
+  animateTitle?: boolean
   birdAnimationAlt?: string
   confirmOverlay?: ComponentType<ConfirmOverlayProps>
   birdAnimationSrc?: string
@@ -56,6 +57,7 @@ export default function RSVPPage({
   accentColor = DEFAULT_ACCENT_COLOR,
   acceptButtonLabel = "Joyfylly Accept",
   acceptOverlay = DEFAULT_ACCEPT_OVERLAY,
+  animateTitle = false,
   birdAnimationAlt = "bird",
   confirmOverlay: ConfirmOverlay = DefaultConfirmOverlay,
   birdAnimationSrc,
@@ -170,9 +172,7 @@ export default function RSVPPage({
   }
 
   const renderedHeader = headerContent ?? (
-    <div className="text-[24rem]">
-      <DividerText text={title} className={titleClassName} />
-    </div>
+    <DividerText animate={animateTitle} text={title} className={titleClassName} />
   )
 
   return (

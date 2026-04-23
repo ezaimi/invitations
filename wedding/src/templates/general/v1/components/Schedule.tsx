@@ -10,30 +10,11 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function Schedule({ items }: { items: V1ScheduleItem[] }) {
   const container = useRef<HTMLElement>(null)
-  const headingRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const lineRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      if (headingRef.current) {
-        gsap.fromTo(
-          headingRef.current,
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.85,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        )
-      }
-
       itemRefs.current.forEach((item) => {
         if (!item) return
 
@@ -108,12 +89,11 @@ export default function Schedule({ items }: { items: V1ScheduleItem[] }) {
       ref={container}
       className="w-full flex flex-col gap-12 items-center py-16 px-4"
     >
-      <div ref={headingRef}>
-        <DividerText
-          className="text-[28px] text-[#676a26] whitespace-nowrap"
-          text="Will  you join us?"
-        />
-      </div>
+      <DividerText
+        animate
+        className="text-[1.1rem] text-[#676a26] whitespace-nowrap"
+        text="The Day Unfolds"
+      />
 
       <div className="relative flex flex-col items-center w-full max-w-md">
         {items.map((item, index) => (

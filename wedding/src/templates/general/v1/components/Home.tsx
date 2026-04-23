@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import type { V1HomeData } from "@/templates/general/v1/types/Invitation"
 import Image from "next/image"
@@ -42,6 +42,7 @@ function Home({ data }: { data: V1HomeData }) {
   const { brideName, groomName, dateText, videoSrc } = data
   const namesText = `${brideName} & ${groomName}`
   const dateParts = dateText.split(".")
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
 
   const posterRef   = useRef<HTMLDivElement>(null)
   const coupleRef   = useRef<HTMLDivElement>(null)
@@ -53,17 +54,6 @@ function Home({ data }: { data: V1HomeData }) {
   const hasRevealedVideoRef = useRef(false)
 
   useEffect(() => {
-    const videoHref = videoSrc
-    const preloadLink = document.createElement("link")
-    preloadLink.rel = "preload"
-    preloadLink.as = "video"
-    preloadLink.href = videoHref
-    preloadLink.type = "video/mp4"
-    document.head.appendChild(preloadLink)
-    return () => { document.head.removeChild(preloadLink) }
-  }, [videoSrc])
-
-  useEffect(() => {
     const poster   = posterRef.current
     const couple   = coupleRef.current
     const video    = videoRef.current
@@ -72,7 +62,6 @@ function Home({ data }: { data: V1HomeData }) {
     const dateEl   = dateRef.current
     if (!poster || !couple || !video || !displace || !namesEl || !dateEl) return
 
-    video.load()
     hasRepeatedRef.current = false
     hasRevealedVideoRef.current = false
     let isCancelled = false
@@ -104,6 +93,8 @@ function Home({ data }: { data: V1HomeData }) {
       waitForImageReady(coupleImage),
     ]).then(() => {
       if (isCancelled) return
+
+      setShouldLoadVideo(true)
 
       heroTimeline = gsap.timeline({ delay: 0.15 })
         .to(poster, {
@@ -143,7 +134,6 @@ function Home({ data }: { data: V1HomeData }) {
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          video.playbackRate = 1 / 3
           void video.play().catch(() => {})
 
           const obj = { distortion: 12 }
@@ -169,7 +159,6 @@ function Home({ data }: { data: V1HomeData }) {
 
       hasRepeatedRef.current = true
       video.currentTime = 0
-      video.playbackRate = 1 / 3
       void video.play().catch(() => {})
     }
 
@@ -187,6 +176,12 @@ function Home({ data }: { data: V1HomeData }) {
       video.removeEventListener("ended", replayVideoOnce)
     }
   }, [])
+
+  useEffect(() => {
+    if (!shouldLoadVideo || !videoRef.current) return
+
+    videoRef.current.load()
+  }, [shouldLoadVideo])
 
   return (
     <section
@@ -240,13 +235,15 @@ function Home({ data }: { data: V1HomeData }) {
         </defs>
       </svg>
 
-      {/* Couple image with glass/water look */}
+      {/* Couple image */}
       <div ref={coupleRef} className="absolute inset-0 z-5">
         <Image
           src="/images/templates/v1/couple.png"
           alt={`${brideName} and ${groomName}`}
           fill
           priority
+          fetchPriority="high"
+          loading="eager"
           sizes="100vw"
           className="object-cover"
           style={{ filter: "url(#glass-water)", transform: "scale(1.05)" }}
@@ -259,9 +256,9 @@ function Home({ data }: { data: V1HomeData }) {
         className="absolute inset-x-0  h-full w-full bg-[#f2ece8] object-cover opacity-0"
         muted
         playsInline
-        preload="auto"
+        preload="none"
       >
-        <source src={videoSrc} type="video/mp4" />
+        {shouldLoadVideo ? <source src={videoSrc} type="video/mp4" /> : null}
       </video>
 
       {/* Keyhole frame — rushes forward */}
@@ -271,8 +268,11 @@ function Home({ data }: { data: V1HomeData }) {
           alt=""
           fill
           priority
+          fetchPriority="high"
+          loading="eager"
           sizes="100vw"
           className="object-cover"
+
         />
       </div>
 
