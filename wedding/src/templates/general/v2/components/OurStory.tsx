@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import SectionTitle from "./Header";
 
@@ -21,15 +21,40 @@ export default function Story({
   patternSrc = "/images/templates/v2/pattern.svg",
 }: StoryProps) {
   const [showGallery, setShowGallery] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [visiblePhotos, setVisiblePhotos] = useState<boolean[]>(
     new Array(PHOTOS.length).fill(false)
   );
+  const contentRef = useRef<HTMLDivElement>(null);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (!entry?.isIntersecting) return;
+        setIsVisible(true);
+        observer.disconnect();
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(content);
+
+    return () => observer.disconnect();
+  }, []);
 
   const clearAllTimeouts = () => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
   };
+
+  useEffect(() => {
+    return () => clearAllTimeouts();
+  }, []);
 
   const handleExplore = () => {
     clearAllTimeouts();
@@ -95,24 +120,27 @@ export default function Story({
       </div>
 
       {/* Title + Button */}
-      <div
-        className={`relative z-10 flex flex-col items-center gap-6 transition-opacity duration-500 ${
-          showGallery ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <SectionTitle className="text-black">
-          OUR
-          <br />
-          STORY
-        </SectionTitle>
-
-        <button
-          onClick={handleExplore}
-          className="bg-black text-white px-10 py-3 rounded-full text-[16px] font-belleza"
+      {!showGallery ? (
+        <div
+          ref={contentRef}
+          className={`relative z-10 flex flex-col items-center gap-6 center-reveal ${
+            isVisible ? "is-visible" : ""
+          }`}
         >
-          Explore
-        </button>
-      </div>
+          <SectionTitle className="text-black">
+            OUR
+            <br />
+            STORY
+          </SectionTitle>
+
+          <button
+            onClick={handleExplore}
+            className="bg-black text-white px-10 py-3 rounded-full text-[16px] font-belleza"
+          >
+            Explore
+          </button>
+        </div>
+      ) : null}
 
       {/* Gallery */}
       <div

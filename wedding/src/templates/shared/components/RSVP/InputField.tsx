@@ -7,12 +7,22 @@ import { withAlpha } from "./color"
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   accentColor: string
+  backgroundColor?: string
+  containerClassName?: string
+  focusRingColor?: string
   icon: ReactNode
+  iconWrapperClassName?: string
+  inputClassName?: string
 }
 
 export default function InputField({
   accentColor,
+  backgroundColor,
+  containerClassName,
+  focusRingColor,
   icon,
+  iconWrapperClassName,
+  inputClassName,
   placeholder,
   ...inputProps
 }: InputFieldProps) {
@@ -48,14 +58,16 @@ export default function InputField({
 
   return (
     <div
-      className="flex items-center rounded-full overflow-hidden transition-shadow duration-200"
+      className={`flex items-center rounded-full overflow-hidden transition-shadow duration-200 ${containerClassName ?? ""}`}
       style={{
-        backgroundColor: withAlpha(accentColor, 39),
-        boxShadow: isFocused ? `0 0 0 2px ${withAlpha(accentColor, 70)}` : undefined,
+        backgroundColor: backgroundColor ?? withAlpha(accentColor, 39),
+        boxShadow: isFocused
+          ? `0 0 0 2px ${focusRingColor ?? withAlpha(accentColor, 70)}`
+          : undefined,
       }}
     >
       <div
-        className="w-14 h-14 min-w-[56px] rounded-full flex items-center justify-center m-1"
+        className={`w-14 h-14 min-w-[56px] m-1 rounded-full flex items-center justify-center ${iconWrapperClassName ?? ""}`}
         style={{ backgroundColor: accentColor }}
       >
         {icon}
@@ -72,7 +84,7 @@ export default function InputField({
           setIsFocused(false)
           inputProps.onBlur?.(event)
         }}
-        className="flex-1 bg-transparent border-none outline-none text-base text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] py-4 pr-5 pl-3"
+        className={`flex-1 bg-transparent border-none outline-none text-base text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] py-4 pr-5 pl-3 ${inputClassName ?? ""}`}
         style={{ fontFamily: "var(--font-belleza)" }}
       />
     </div>

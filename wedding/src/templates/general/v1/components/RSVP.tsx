@@ -21,6 +21,7 @@ export default function RSVPPage({ data }: { data: V1RSVPData }) {
       guestIconClassName="text-white"
       guestNumberClassName="text-[#3a3a2e]"
       guestStepperButtonClassName="bg-[#e8a4a8]"
+      fieldIconWrapperClassName="m-2"
       title="The Celebration"
       titleClassName="text-[1.1rem] text-[#676a26] whitespace-nowrap"
       introText={

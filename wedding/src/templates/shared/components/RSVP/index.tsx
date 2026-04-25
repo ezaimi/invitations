@@ -21,23 +21,41 @@ export interface SharedRSVPProps {
   accentColor?: string
   acceptButtonLabel?: string
   acceptOverlay?: RSVPOverlayContent
+  actionButtonClassName?: string
   animateTitle?: boolean
   birdAnimationAlt?: string
   confirmOverlay?: ComponentType<ConfirmOverlayProps>
   birdAnimationSrc?: string
+  buttonsRowClassName?: string
   declineButtonLabel?: string
   declineOverlay?: RSVPOverlayContent
   emailField?: RSVPFieldConfig
-  guestDescription?: string
+  fieldBackgroundColor?: string
+  fieldContainerClassName?: string
+  fieldFocusRingColor?: string
+  fieldIconWrapperClassName?: string
+  fieldInputClassName?: string
+  fieldsWrapperClassName?: string
+  contentClassName?: string
+  guestDescription?: ReactNode
+  guestContainerClassName?: string
+  guestDescriptionClassName?: string
   guestIconClassName?: string
   guestNumberClassName?: string
+  guestStepperClassName?: string
   guestStepperBackgroundColor?: string
   guestStepperButtonClassName?: string
+  guestStepperSurfaceColor?: string
   headerContent?: ReactNode
+  headerClassName?: string
   introText?: ReactNode
+  introTextClassName?: string
+  mainClassName?: string
   nameField?: RSVPFieldConfig
   title?: string
   titleClassName?: string
+  wishesClassName?: string
+  wishesWrapperClassName?: string
   wishesPlaceholder?: string
 }
 
@@ -57,19 +75,33 @@ export default function RSVPPage({
   accentColor = DEFAULT_ACCENT_COLOR,
   acceptButtonLabel = "Joyfylly Accept",
   acceptOverlay = DEFAULT_ACCEPT_OVERLAY,
+  actionButtonClassName = "",
   animateTitle = false,
   birdAnimationAlt = "bird",
   confirmOverlay: ConfirmOverlay = DefaultConfirmOverlay,
   birdAnimationSrc,
+  buttonsRowClassName = "",
   declineButtonLabel = "Gracefully Decline",
   declineOverlay = DEFAULT_DECLINE_OVERLAY,
   emailField,
+  fieldBackgroundColor,
+  fieldContainerClassName = "",
+  fieldFocusRingColor,
+  fieldIconWrapperClassName = "",
+  fieldInputClassName = "",
+  fieldsWrapperClassName = "",
+  contentClassName = "",
   guestDescription = "Please indicate the total number of people, including yourself and all family members or guests.",
+  guestContainerClassName = "",
+  guestDescriptionClassName = "",
   guestIconClassName = "",
   guestNumberClassName = "",
+  guestStepperClassName = "",
   guestStepperBackgroundColor = accentColor,
   guestStepperButtonClassName = "",
+  guestStepperSurfaceColor,
   headerContent,
+  headerClassName = "",
   introText = (
     <>
       Please be so kind as to confirm your attendance by submitting your RSVP no
@@ -77,9 +109,13 @@ export default function RSVPPage({
       plan accordingly for all our guests.
     </>
   ),
+  introTextClassName = "",
+  mainClassName = "",
   nameField,
   title = "The Celebration",
   titleClassName,
+  wishesClassName = "",
+  wishesWrapperClassName = "",
   wishesPlaceholder = "Share your wishes...",
 }: SharedRSVPProps) {
   const [guestCount, setGuestCount] = useState(1)
@@ -177,10 +213,10 @@ export default function RSVPPage({
 
   return (
     <>
-      <main className="flex justify-center relative">
+      <main className={`flex justify-center relative ${mainClassName}`}>
         <div
           ref={sectionRef}
-          className="relative overflow-visible w-full soace-y-5 h-200 space-y-6 px-7 py-12 flex flex-col max-w-[500px]"
+          className={`relative overflow-visible w-full flex flex-col space-y-6 ${contentClassName || "max-w-[500px] px-7 py-12 h-200"}`}
         >
           {birdAnimationSrc ? (
             <SquareMotion
@@ -193,21 +229,26 @@ export default function RSVPPage({
             />
           ) : null}
 
-          <header className="text-center space-y-5 reveal reveal-1">
+          <header className={`text-center reveal reveal-1 ${headerClassName || "space-y-5"}`}>
             {renderedHeader}
             <p
-              className="text-[15.5px] leading-[1.65] text-[#3a3a2e] px-1"
+              className={`text-[15.5px] leading-[1.65] text-[#3a3a2e] px-1 ${introTextClassName}`}
               style={{ fontFamily: "var(--font-belleza)" }}
             >
               {introText}
             </p>
           </header>
 
-          <div className="flex flex-col gap-4">
+          <div className={`flex flex-col ${fieldsWrapperClassName || "gap-4"}`}>
             <div className="reveal reveal-2">
               <InputField
                 accentColor={accentColor}
+                backgroundColor={fieldBackgroundColor}
+                containerClassName={fieldContainerClassName}
+                focusRingColor={fieldFocusRingColor}
                 icon={resolvedNameField.icon}
+                iconWrapperClassName={fieldIconWrapperClassName}
+                inputClassName={fieldInputClassName}
                 type={resolvedNameField.type}
                 placeholder={resolvedNameField.placeholder}
                 autoComplete={resolvedNameField.autoComplete}
@@ -218,7 +259,12 @@ export default function RSVPPage({
             <div className="reveal reveal-3">
               <InputField
                 accentColor={accentColor}
+                backgroundColor={fieldBackgroundColor}
+                containerClassName={fieldContainerClassName}
+                focusRingColor={fieldFocusRingColor}
                 icon={resolvedEmailField.icon}
+                iconWrapperClassName={fieldIconWrapperClassName}
+                inputClassName={fieldInputClassName}
                 type={resolvedEmailField.type}
                 placeholder={resolvedEmailField.placeholder}
                 autoComplete={resolvedEmailField.autoComplete}
@@ -235,16 +281,20 @@ export default function RSVPPage({
                 guestStepperButtonClassName ? undefined : guestStepperBackgroundColor
               }
               buttonClassName={guestStepperButtonClassName}
+              containerClassName={guestContainerClassName}
               count={guestCount}
               description={guestDescription}
+              descriptionClassName={guestDescriptionClassName}
               iconClassName={guestIconClassName}
               numberClassName={guestNumberClassName}
               onChange={setGuestCount}
+              stepperBackgroundColor={guestStepperSurfaceColor}
+              stepperClassName={guestStepperClassName}
             />
           </div>
 
           <div
-            className="mt-5 rounded-[20px] px-5 py-5 reveal reveal-5"
+            className={`mt-5 rounded-[20px] px-5 py-5 reveal reveal-5 ${wishesWrapperClassName}`}
             style={{ backgroundColor: withAlpha(accentColor, 39) }}
           >
             <textarea
@@ -252,23 +302,23 @@ export default function RSVPPage({
               rows={6}
               value={wishes}
               onChange={(event) => setWishes(event.target.value)}
-              className="w-full overflow-hidden bg-transparent border-none outline-none resize-none text-[15.5px] leading-[1.6] text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] focus:ring-0"
+              className={`w-full overflow-hidden bg-transparent border-none outline-none resize-none text-[15.5px] leading-[1.6] text-[#3a3a2e] placeholder-[#5a5a48] caret-[#3a3a2e] focus:ring-0 ${wishesClassName}`}
               style={{ fontFamily: "var(--font-belleza)" }}
             />
           </div>
 
-          <div className="mt-7 flex gap-3.5 reveal reveal-6">
+          <div className={`flex reveal reveal-6 ${buttonsRowClassName || "mt-7 gap-3.5"}`}>
             <button
               ref={buttonRef}
               onClick={handleAccept}
-              className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
+              className={`flex-1 rounded-full text-white transition-all duration-150 active:scale-[0.97] active:opacity-90 ${actionButtonClassName || "py-[18px] text-[15px] tracking-wide"}`}
               style={{ backgroundColor: accentColor, fontFamily: "var(--font-belleza)" }}
             >
               {acceptButtonLabel}
             </button>
             <button
               onClick={() => setOverlay("decline")}
-              className="flex-1 py-[18px] rounded-full text-white text-[15px] tracking-wide transition-all duration-150 active:scale-[0.97] active:opacity-90"
+              className={`flex-1 rounded-full text-white transition-all duration-150 active:scale-[0.97] active:opacity-90 ${actionButtonClassName || "py-[18px] text-[15px] tracking-wide"}`}
               style={{ backgroundColor: accentColor, fontFamily: "var(--font-belleza)" }}
             >
               {declineButtonLabel}
