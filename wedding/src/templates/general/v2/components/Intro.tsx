@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import type { Invitation } from "@/templates/general/v1/types/Invitation";
 import { formatInvitationDate } from "@/lib/formatInvitationDate";
-import SectionSubtitle from "./Subtitle";
+import SectionSubtitle from "../../../shared/components/RSVP/Subtitle";
 
 const images = [
   "/images/templates/v2/couple1.webp",

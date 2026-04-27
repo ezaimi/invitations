@@ -60,5 +60,12 @@
     "groom": "James",
     "date": "22 July 2026",
     "template": "v2"
+  },
+  {
+    "slug": "lisa-tom",
+    "bride": "Lisa",
+    "groom": "Tom",
+    "date": "22 July 2026",
+    "template": "v3"
   }
 ]

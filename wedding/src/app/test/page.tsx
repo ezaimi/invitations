@@ -4,8 +4,8 @@ import { AtSign, Mail, User } from "lucide-react"
 
 import RSVP, { ConfirmOverlay } from "@/templates/shared/components/RSVP"
 import SharedSchedule from "@/templates/shared/components/Schedule"
-import SectionTitle from "@/templates/general/v2/components/Header"
-import SectionSubtitle from "@/templates/general/v2/components/Subtitle"
+import SectionTitle from "@/templates/shared/components/RSVP/Header"
+import SectionSubtitle from "@/templates/shared/components/RSVP/Subtitle"
 import EndSection from "@/templates/general/v2/components/End"
 
 export default function Page() {

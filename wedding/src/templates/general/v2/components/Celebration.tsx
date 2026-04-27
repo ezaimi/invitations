@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import SectionTitle from "./Header";
-import SectionSubtitle from "./Subtitle";
+import SectionTitle from "../../../shared/components/RSVP/Header";
+import SectionSubtitle from "../../../shared/components/RSVP/Subtitle";
 
 export default function Celebration() {
   const subtitleRef = useRef<HTMLDivElement>(null);

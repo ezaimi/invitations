@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import SectionTitle from "./Header";
+import SectionTitle from "../../../shared/components/RSVP/Header";
 
 type StoryProps = {
   patternSrc?: string;

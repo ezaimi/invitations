@@ -2,8 +2,8 @@
 import { Mail, User } from "lucide-react";
 
 import SharedRSVP from "@/templates/shared/components/RSVP";
-import SectionSubtitle from "./Subtitle";
-import SectionTitle from "./Header";
+import SectionSubtitle from "../../../shared/components/RSVP/Subtitle";
+import SectionTitle from "../../../shared/components/RSVP/Header";
 
 export default function RSVP() {
   return (
