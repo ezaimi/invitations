@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import type { Invitation } from "@/templates/general/v1/types/Invitation";
-import SectionSubtitle from "./Subtitle";
+import { formatInvitationDate } from "@/lib/formatInvitationDate";
+import SectionSubtitle from "../../../shared/components/RSVP/Subtitle";
 
 const images = [
   "/images/templates/v2/couple1.webp",
@@ -14,6 +16,9 @@ const images = [
 
 export default function Intro({ data }: { data: Invitation }) {
   const [index, setIndex] = useState(0);
+  const [isSubtitleVisible, setIsSubtitleVisible] = useState(false);
+  const nameRef = useRef<HTMLHeadingElement>(null);
+  const dateRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,6 +27,63 @@ export default function Intro({ data }: { data: Invitation }) {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const el = nameRef.current;
+    if (!el) return;
+
+    const fullName = `${data.bride} & ${data.groom}`;
+    el.innerHTML = fullName
+      .split("")
+      .map((char) =>
+        char === " "
+          ? `<span class="inline-block opacity-0 translate-y-2.5">&nbsp;</span>`
+          : `<span class="inline-block opacity-0 translate-y-2.5">${char}</span>`
+      )
+      .join("");
+
+    const chars = el.querySelectorAll("span");
+
+    gsap.to(chars, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.1,
+      delay: 0.6,
+    });
+
+    const t1 = setTimeout(() => setIsSubtitleVisible(true), 600);
+
+    const t2 = setTimeout(() => {
+      const dateEl = dateRef.current;
+      if (!dateEl) return;
+
+      const numbers = dateEl.querySelectorAll<HTMLElement>("[data-date-num]");
+      const dashes = dateEl.querySelectorAll<HTMLElement>("[data-date-dash]");
+
+      gsap.to(numbers, {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        ease: "power4.out",
+        stagger: 0.3,
+      });
+
+      gsap.to(dashes, {
+        scaleX: 1,
+        duration: 1.1,
+        ease: "power4.out",
+        stagger: 0.3,
+        delay: 0.4,
+      });
+    }, 600);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [data.bride, data.groom]);
 
   return (
     <div className="relative h-screen flex flex-col justify-center 
@@ -65,26 +127,47 @@ export default function Intro({ data }: { data: Invitation }) {
       <div className=" inset-0 flex flex-col items-center justify-center text-center px-4 z-20 ml-7">
 
         <h1
+          ref={nameRef}
           className="text-black text-[53px] sm:text-[64px] font-burgues tracking-[0.05em]"
-        >
-          {data.bride} & {data.groom}
-        </h1>
+        />
 
-        <SectionSubtitle className="text-[#60683e]">
-          We joyfully invite you to share
-          <br />
-          in our celebration of love and commitment,
-          <br />
-          as we begin this new chapter together
-          <br />
-          surrounded by those who mean the most to us.
-        </SectionSubtitle>
+        <div className={`countdown-reveal ${isSubtitleVisible ? "is-visible" : ""}`}>
+          <SectionSubtitle className="text-[#60683e]">
+            We joyfully invite you to share
+            <br />
+            in our celebration of love and commitment,
+            <br />
+            as we begin this new chapter together
+            <br />
+            surrounded by those who mean the most to us.
+          </SectionSubtitle>
+        </div>
 
         <div
-          className="mt-10 text-[28px] sm:text-[36px] tracking-[0.5em] font-suranna"
+          ref={dateRef}
+          className="mt-10 flex items-center text-[28px] sm:text-[36px] tracking-[0.5em] font-suranna overflow-hidden"
           style={{ color: "#60683e" }}
         >
-          {new Date(data.date).toLocaleDateString("en-GB").replace(/\//g, "-")}
+          {formatInvitationDate(data.date)
+            .split("-")
+            .map((part, i, arr) => (
+              <span key={i} className="flex items-center">
+                <span
+                  data-date-num
+                  className="inline-block opacity-0 translate-y-4"
+                >
+                  {part}
+                </span>
+                {i < arr.length - 1 && (
+                  <span
+                    data-date-dash
+                    className="inline-block mx-[0.1em] opacity-100 scale-x-0 origin-left"
+                  >
+                    -
+                  </span>
+                )}
+              </span>
+            ))}
         </div>
 
 

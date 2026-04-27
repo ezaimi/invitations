@@ -3,6 +3,17 @@
 html,
 body {
   background-color: var(--rsvp-bg);
+  margin: 0;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-y: auto;
+}
+
+body {
+  min-height: 100%;
+  overflow-y: clip;
 }
 
 .font-belleza {
@@ -86,4 +97,46 @@ body {
 }
 .schedule-line-reveal.is-visible {
   animation: growLineDown 1s ease forwards;
+}
+
+@keyframes countdownRise {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes topDrop {
+  from { opacity: 0; transform: translateY(-28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes centerBloom {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.countdown-reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+}
+
+.countdown-reveal.is-visible {
+  animation: countdownRise 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.top-reveal {
+  opacity: 0;
+  transform: translateY(-28px) scale(0.98);
+}
+
+.top-reveal.is-visible {
+  animation: topDrop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.center-reveal {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.center-reveal.is-visible {
+  animation: centerBloom 4.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

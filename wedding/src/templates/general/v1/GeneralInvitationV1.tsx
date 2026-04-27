@@ -1,25 +1,24 @@
 import Home from "./components/Home";
 import { Invitation } from "./types/Invitation";
-import Schedule from "./components/Schedule";
-import RSVP from "./components/RSVP";
+import { resolveV1TemplateData } from "./defaultTemplateData";
 import InvitationLayout from "./components/InvitationLayout";
-import Details from "./components/Details/Details";
-import Countdown from "./components/Countdown";
+import DeferredSections from "./components/DeferredSections";
 
 
 export default function GeneralInvitationV1({ data }: { data: Invitation }) {
+  const templateData = resolveV1TemplateData(data)
+
   return (
     <InvitationLayout>
       <div className="relative">
-        <Home data={data}/>
+        <Home data={templateData.home}/>
       </div>
-      <div className="h-20"></div>
-      <Details />
-      <Schedule />
-      <RSVP />
-      <br />
-      <br />
-      <Countdown/>
+      <DeferredSections
+        countdown={templateData.countdown}
+        details={templateData.details}
+        rsvp={templateData.rsvp}
+        scheduleItems={templateData.schedule.items}
+      />
     </InvitationLayout>
   )
 }

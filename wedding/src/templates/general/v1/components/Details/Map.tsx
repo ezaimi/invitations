@@ -1,15 +1,18 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import DividerText from "../../../../shared/components/DividerText"
 
 import { MapPin, Send } from "lucide-react"
 import gsap from "gsap"
 import AnimatedMap from "./AnimatedMap"
+import type { V1DetailsData } from "@/templates/general/v1/types/Invitation"
 
-function Map() {
+function Map({ data }: { data: Pick<V1DetailsData, "mapImageSrc"> }) {
   const iconRef = useRef<SVGSVGElement>(null)
   const textRef = useRef<HTMLSpanElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [isCardVisible, setIsCardVisible] = useState(false)
 
   useEffect(() => {
     if (!iconRef.current || !textRef.current) return
@@ -34,29 +37,55 @@ function Map() {
       .to(textRef.current, { x: 0, duration: 0.08 })
   }, [])
 
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        if (!entry?.isIntersecting) return
+        setIsCardVisible(true)
+        observer.disconnect()
+      },
+      { threshold: 0.35 }
+    )
+
+    observer.observe(card)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="flex flex-col items-center px-8">
-      <DividerText text="Find us here" />
+    <div className="flex w-full flex-col items-center px-8">
+      <header className="flex items-center gap-4 text-[#676a26]">
+        <DividerText text="Find us here" animate triggerStart="top bottom" />
+      </header>
 
-      <AnimatedMap />
+      <AnimatedMap mapImageSrc={data.mapImageSrc} />
 
-      <div className="flex items-center justify-between bg-[#f9faf9]/95 rounded-2xl px-4 py-2 mt-4 w-full mx-1">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#d9e2d3] -ml-2 flex items-center justify-center">
+      <div
+        ref={cardRef}
+        className={`mt-4 flex w-full items-center justify-between rounded-2xl  px-4 py-2 countdown-reveal ${
+          isCardVisible ? "is-visible" : ""
+        }`}
+      >
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#d9e2d3] -ml-2">
             <MapPin className="w-4 h-4 text-[#6f7f5c]" />
           </div>
 
-          <div className="min-w-0 max-w-[140px] font-belleza">
-            <h3 className="text-[#131313] text-[0.8rem] font-medium truncate">
+          <div className="w-0 min-w-[92px] max-w-[140px] -ml-1 flex-1 font-belleza">
+            <h3 className="block w-full truncate text-[#131313] text-[0.8rem] font-medium">
               Rose Garden Estate
             </h3>
-            <p className="text-[#8a8a8a] text-[0.5rem] truncate">
+            <p className="block w-full truncate text-[#8a8a8a] text-[0.5rem]">
               16621 Lathrop Dr, Yorba Linda djhsdj kjsddhsdh
             </p>
           </div>
         </div>
 
-        <button className="flex items-center -mr-2 gap-2 bg-[#6f7f5c] tracking-[2.5px] text-[#f0ecec] text-[0.6rem] px-3 py-2 rounded-full hover:opacity-90 transition">
+        <button className="ml-2 flex shrink-0 items-center gap-1.5 rounded-full bg-[#6f7f5c] px-2.5 py-2 text-[0.56rem] tracking-[1px] text-[#f0ecec] transition hover:opacity-90 sm:ml-3 sm:gap-2 sm:px-3 sm:text-[0.6rem] sm:tracking-[2.5px]">
           <Send ref={iconRef} className="w-4 h-4" />
           <span ref={textRef}>DIRECTIONS</span>
         </button>

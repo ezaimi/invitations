@@ -1,6 +1,6 @@
 "use client";
 
-import SectionTitle from "./Header";
+import SharedSchedule from "@/templates/shared/components/Schedule";
 
 const program = [
   {
@@ -31,42 +31,21 @@ const program = [
 
 export default function Schedule() {
   return (
-    <section className="w-full bg-[#f3f1e6] flex flex-col items-center pt-7 pb-20 text-center">
-
-      <SectionTitle>
-        THE DAY UNFOLDS
-      </SectionTitle>
-
-      <div className="mt-12 flex flex-col items-center gap-5 px-6 max-w-[600px]">
-
-        {program.map((item, index) => (
-          <div key={index} className="flex flex-col items-center">
-
-            {/* Time */}
-            <div className="text-[#60683e] text-[24px] sm:text-[34px] font-serenity">
-              {item.time}
-            </div>
-
-            {/* Title */}
-            <div className=" text-[27px] sm:text-[26px] font-perandory-condensed">
-              {item.title}
-            </div>
-
-            {/* Description */}
-            <p className="mt-1 text-[14px] sm:text-[16px] text-gray-600 leading-[1.4] font-belleza mx-10">
-              {item.description}
-            </p>
-
-            {/* Divider (except last) */}
-            {index !== program.length - 1 && (
-              <div className="mt-5 h-8 w-[2px] bg-[#60683e]/40" />
-            )}
-
-          </div>
-        ))}
-
-      </div>
-
-    </section>
+    <SharedSchedule
+      animateTitle
+      title="THE DAY UNFOLDS"
+      titleMode="plain"
+      titleClassName="text-[#000000] text-[40px] sm:text-[3.5rem] md:text-[4rem] leading-none font-serenity z-10 whitespace-nowrap"
+      sectionClassName="w-full bg-[#f3f1e6] flex flex-col items-center pt-7 pb-20 text-center"
+      titleWrapperClassName="w-full"
+      itemsWrapperClassName="mt-12 flex flex-col items-center gap-5 px-6 max-w-[600px]"
+      itemClassName="flex flex-col items-center"
+      timeClassName="text-[#60683e] text-[24px] sm:text-[34px] font-serenity"
+      valueTitleClassName="text-[27px] sm:text-[26px] font-perandory-condensed"
+      descriptionClassName="mt-1 text-[14px] sm:text-[16px] text-gray-600 leading-[1.4] font-belleza mx-10"
+      lineWrapperClassName="mt-5"
+      lineClassName="h-8 w-[2px] bg-[#60683e]/40"
+      items={program}
+    />
   );
 }
