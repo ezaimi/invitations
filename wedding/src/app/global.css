@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 html,
 body {
   background-color: var(--rsvp-bg);
@@ -38,6 +39,14 @@ body {
 
 .font-perandory-condensed {
   font-family: var(--font-perandory-condensed), sans-serif;
+}
+
+.font-parfumerie {
+  font-family: var(--font-parfumerie), cursive;
+}
+
+.font-sloop {
+  font-family: var(--font-sloop), cursive;
 }
 
 /* Smooth counter transition */

@@ -49,6 +49,18 @@ const suranna = localFont({
   display: "swap",
 });
 
+const parfumerie = localFont({
+  src: "../../public/fonts/parfumerie-script-old-style.otf",
+  variable: "--font-parfumerie",
+  display: "swap",
+});
+
+const sloop = localFont({
+  src: "../../public/fonts/Sloop Script Regular.ttf",
+  variable: "--font-sloop",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Wedding Invitations",
   description: "Personalized wedding invitations",
@@ -66,7 +78,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} ${belleza.variable} ${slight.variable} ${serenity.variable} ${perandoryCondensed.variable} ${burgues.variable} ${suranna.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${belleza.variable} ${slight.variable} ${serenity.variable} ${perandoryCondensed.variable} ${burgues.variable} ${suranna.variable} ${parfumerie.variable} ${sloop.variable} antialiased`}
       >
         {children}
       </body>
