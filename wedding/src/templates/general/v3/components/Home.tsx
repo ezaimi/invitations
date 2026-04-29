@@ -13,26 +13,34 @@ const letterVariants: Variants = {
     hidden: {
         clipPath: 'inset(-45% 100% -45% 0)',
         opacity: 0,
-        y: 18,
+        y: 24,
+        filter: 'blur(3px)',
     },
     show: (delay: number) => ({
         clipPath: 'inset(-45% -70% -45% -35%)',
         opacity: 1,
         y: 0,
+        filter: 'blur(0px)',
         transition: {
             clipPath: {
                 delay,
-                duration: 1.55,
-                ease: [0.16, 1, 0.3, 1],
+                duration: 2.35,
+                ease: [0.12, 0.88, 0.2, 1],
             },
             opacity: {
                 delay,
-                duration: 0.45,
+                duration: 1.05,
+                ease: 'easeOut',
             },
             y: {
                 delay,
+                duration: 1.9,
+                ease: [0.12, 0.88, 0.2, 1],
+            },
+            filter: {
+                delay,
                 duration: 1.35,
-                ease: [0.16, 1, 0.3, 1],
+                ease: 'easeOut',
             },
         },
     }),
@@ -40,94 +48,88 @@ const letterVariants: Variants = {
 
 function Home() {
     return (
-        <section className="h-screen overflow-hidden flex flex-col items-center">
-            <div
-                className="relative w-full h-168 ml-4 flex flex-col items-center justify-center
-                font-sloop text-[12rem] text-[#642c2b]"
-            >
+        <section className="min-h-[100svh] overflow-hidden flex flex-col items-center justify-center gap-[clamp(2rem,6vh,4rem)] px-4 py-8">
+            <div className="relative w-[min(82vw,22rem)] aspect-[450/600] font-sloop text-[clamp(11.7rem,33vw,13rem)] text-[#642c2b]">
                 <motion.div
-                    className="absolute top-25 -ml-9 z-10 flex"
+                    className="absolute left-1/2 -ml-5 top-[4%] z-10 flex -translate-x-1/2"
                     initial="hidden"
                     animate="show"
                 >
                     <motion.p
-                        custom={1.15}
+                        custom={1.25}
                         variants={letterVariants}
                         className="will-change-transform"
                     >
                         M
                     </motion.p>
                     <motion.p
-                        custom={1.45}
+                        custom={1.75}
                         variants={letterVariants}
-                        className="mt-22 -ml-19 will-change-transform"
+                        className="mt-[0.45em] -ml-[0.40em] will-change-transform"
                     >
                         D
                     </motion.p>
                 </motion.div>
 
-                <div className="absolute top-50 left-1/2 z-0 h-[427px] w-[320px] -translate-x-1/2">
-                    <motion.div
-                        className="absolute inset-0 will-change-transform"
-                        style={{
-                            transformOrigin: '50% 50%',
-                            backfaceVisibility: 'hidden',
-                        }}
-                        initial={{ opacity: 0, scale: 0.86, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                        transition={harpFadeTransition}
-                    >
-                        <Image
-                            src="/images/templates/v3/harp.svg"
-                            alt="harp"
-                            width={320}
-                            height={427}
-                            priority
-                            className="h-full w-full object-contain"
-                        />
-                    </motion.div>
-
-                    <motion.div
-                        className="absolute inset-0 will-change-transform"
-                        style={{
-                            transformOrigin: '50% 50%',
-                            backfaceVisibility: 'hidden',
-                        }}
-                        initial={{ opacity: 0, scale: 0.86, filter: 'blur(10px)' }}
-                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                        transition={harpFadeTransition}
-                    >
-                        <Image
-                            src="/images/templates/v3/harp.svg"
-                            alt="harp"
-                            width={320}
-                            height={427}
-                            priority
-                            className="h-full w-full object-contain"
-                        />
-                    </motion.div>
-                </div>
-
                 <motion.div
-                    className="absolute top-80 right-18 z-20 will-change-transform"
+                    className="absolute inset-x-0 top-[26%] z-0 mx-auto aspect-[450/600] w-[78%] will-change-transform"
+                    style={{
+                        transformOrigin: '50% 50%',
+                        backfaceVisibility: 'hidden',
+                    }}
                     initial={{ opacity: 0, scale: 0.86, filter: 'blur(10px)' }}
                     animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                    transition={{
-                        ...harpFadeTransition,
+                    transition={harpFadeTransition}
+                >
+                    <motion.div
+                        className="absolute inset-0"
+                        initial={false}
+                    >
+                        <Image
+                            src="/images/templates/v3/harp.svg"
+                            alt="harp"
+                            fill
+                            sizes="(max-width: 568px) 64vw, 275px"
+                            priority
+                            className="object-contain"
+                        />
+                    </motion.div>
+
+                    <div className="absolute inset-0">
+                        <Image
+                            src="/images/templates/v3/harp.svg"
+                            alt="harp"
+                            fill
+                            sizes="(max-width: 568px) 64vw, 275px"
+                            priority
+                            className="object-contain"
+                        />
+                    </div>
+                </motion.div>
+
+                <motion.div
+                    className="absolute right-[15%] top-[49%] z-30 aspect-square w-[27%] will-change-transform"
+                    style={{
+                        transformOrigin: '50% 50%',
+                        backfaceVisibility: 'hidden',
                     }}
+                    initial={{ opacity: 0, scale: 0.86, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    transition={harpFadeTransition}
                 >
                     <Image
                         src="/images/templates/v3/harp-part.svg"
                         alt="harp detail"
-                        width={120}
-                        height={120}
+                        fill
+                        sizes="(max-width: 568px) 23vw, 106px"
                         priority
+                        className="object-contain"
                     />
                 </motion.div>
             </div>
 
             <motion.p
-                className="font-serenity text-[#4d0c12] text-[2rem] text-center tracking-wider leading-10 will-change-transform"
+                className="font-serenity text-[#4d0c12] text-[clamp(1.6rem,7vw,2rem)] text-center tracking-wider leading-tight will-change-transform"
                 initial={{ y: 46, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{

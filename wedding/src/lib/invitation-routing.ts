@@ -2,7 +2,7 @@ import type { Invitation, PartialV1TemplateData } from "@/templates/general/v1/t
 import { resolveV1TemplateData } from "@/templates/general/v1/defaultTemplateData";
 import invitationsData from "@/data/invitations.json";
 
-export type InvitationTemplate = "v1" | "v2";
+export type InvitationTemplate = "v1" | "v2" | "v3";
 
 export type RoutedInvitation = Invitation & {
   template: InvitationTemplate;
@@ -77,7 +77,7 @@ function parseCoupleSlug(coupleSlug: string) {
 function parseTemplate(templateSlug?: string | string[]) {
   const value = Array.isArray(templateSlug) ? templateSlug[0] : templateSlug;
 
-  if (value === "v1" || value === "v2") {
+  if (value === "v1" || value === "v2" || value === "v3") {
     return value;
   }
 
